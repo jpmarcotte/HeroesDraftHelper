@@ -1,0 +1,6 @@
+# IDE files
+.*.sw*
+
+
+# Player data should not be tracked
+/data/players/
