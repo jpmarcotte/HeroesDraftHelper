@@ -4,3 +4,4 @@
 
 # Player data should not be tracked
 /data/players/
+/data/maps/
