@@ -1,0 +1,187 @@
+<HTML>
+	<HEAD>
+		<STYLE>
+			select {
+				width: 100%
+			}
+		</STYLE>
+		<SCRIPT src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></SCRIPT>
+		<SCRIPT type=text/javascript src="helper.js"></SCRIPT>
+	</HEAD>
+	<BODY>
+		<TABLE border=1 width=100%>
+			<THEAD>
+				<TR>
+					<TH colspan=2 width=30%>Ally Bans</TH>
+					<TH width=40%>Map</TH>
+					<TH colspan=2 width=40%>Opponent Bans</TH>
+				</TR>
+			</TBODY>
+				<TR>
+					<TD width=15%>
+						<SELECT id=ally_ban_1 name=ally_ban_1 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD width=15%>
+						<SELECT id=ally_ban_2 name=ally_ban_2 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD width=40%>
+						<SELECT id=map name=map>
+							<OPTION value=''>Select a map</OPTION>
+						</SELECT>
+					</TD>
+					<TD width=15%>
+						<SELECT id=opponent_ban_1 name=opponent_ban_1 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD width=15%>
+						<SELECT id=opponent_ban_2 name=opponent_ban_2 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+				</TR>
+				<TR>
+					<TD colspan=5>
+						<SPAN>Suggested Bans:</SPAN>
+						<SPAN id=suggested_bans></SPAN>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+		<BR />
+		<TABLE border=1 width=100%>
+			<THEAD>
+				<TR>
+					<TH width=25%>Ally Player</TH>
+					<TH width=25%>Ally Hero Chosen</TH>
+					<TH width=25%>Suggestions</TH>
+					<TH width=25%>Opponent Hero Chosen</TH>
+				</TR>
+			</THEAD>
+			<TBODY>
+				<TR>
+					<TD>
+						<SELECT id=player_1 name=player_1 class=player_select>
+							<OPTION value=''>Player 1</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<SELECT id=ally_hero_1 name=ally_hero_1 class="ally hero_select">
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<DIV id=hero_suggestions_1 class=hero_suggestions>
+						</DIV>
+					</TD>
+					<TD>
+						<SELECT id=opponent_hero_1 name=opponent_hero_1 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<SELECT id=player_2 name=player_2 class=player_select>
+							<OPTION value=''>Player 2</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<SELECT id=ally_hero_2 name=ally_hero_2 class="ally hero_select">
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<DIV id=hero_suggestions_2 class=hero_suggestions>
+						</DIV>
+					</TD>
+					<TD>
+						<SELECT id=opponent_hero_2 name=opponent_hero_2 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<SELECT id=player_3 name=player_3 class=player_select>
+							<OPTION value=''>Player 3</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<SELECT id=ally_hero_3 name=ally_hero_3 class="ally hero_select">
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<DIV id=hero_suggestions_3 class=hero_suggestions>
+						</DIV>
+					</TD>
+					<TD>
+						<SELECT id=opponent_hero_3 name=opponent_hero_3 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<SELECT id=player_4 name=player_4 class=player_select>
+							<OPTION value=''>Player 4</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<SELECT id=ally_hero_4 name=ally_hero_4 class="ally hero_select">
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<DIV id=hero_suggestions_4 class=hero_suggestions>
+						</DIV>
+					</TD>
+					<TD>
+						<SELECT id=opponent_hero_4 name=opponent_hero_4 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<SELECT id=player_5 name=player_5 class=player_select>
+							<OPTION value=''>Player 5</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<SELECT id=ally_hero_5 name=ally_hero_5 class="ally hero_select">
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD>
+						<DIV id=hero_suggestions_5 class=hero_suggestions>
+						</DIV>
+					</TD>
+					<TD>
+						<SELECT id=opponent_hero_5 name=opponent_hero_5 class=hero_select>
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+
+		<BR/>
+		<SPAN>Load Player:</SPAN>
+		<FORM id=load_player_form>
+			<SELECT id=player_region name=player_region style='width:50px'>
+				<OPTION value=1>US</OPTION>
+			</SELECT>
+			<INPUT type=text placeholder="BattleTag Name" id=bt_name name=bt_name> #
+			<INPUT type=number width=4 placeholder="Number" id=bt_number name=bt_number> 
+			<INPUT type=submit value=Load>
+		</FORM>
+		<SPAN id=load_player_message></SPAN>
+
+	</BODY>
+</HTML>

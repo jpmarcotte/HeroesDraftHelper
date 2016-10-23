@@ -1,0 +1,148 @@
+var map_data = {};
+var form = this;
+var player_data = {};
+var current_map = null;
+var hero_names = [];
+
+
+$(document).ready(function() {
+	// Load Player functionality
+	$('form#load_player_form').submit(function(e){
+		e.preventDefault();
+		var player_id = this.player_region.value + "_" + this.bt_name.value + "_" + this.bt_number.value;
+		$('#load_player_message').text('');
+		$.ajax({
+			dataType: 'json',
+			url: '../data/players/'+player_id+'.JSON',
+			success: function(data) {
+				$('#load_player_message').text('Successfully loaded player data.');
+				if (player_data[player_id] == undefined) {
+					$('select.player_select').append("<OPTION value='"+player_id+"'>"+player_id+"</OPTION>");
+				}
+				player_data[player_id] = data;
+			},
+			error: function() {
+				$('#load_player_message').text('Could not load player data.');
+			}
+		});
+	});
+
+	// Set current map whenever map is changed.
+	$('select#map').change(function(){
+		current_map = $(this).val();
+	});
+
+	$('select').change(function() {
+		update_suggestions();
+	});
+
+	// Load map data
+	$.getJSON(
+		'../data/maps/map_data.json',
+		function(data) {
+			window.map_data = data;
+			for ( map_name in map_data ) {
+				$('select#map').append("<OPTION>"+map_name+"</OPTION>");
+			}
+			for ( hero_name in map_data[map_name] ) {
+				hero_names.push(hero_name);
+			}
+			hero_names.sort();
+			for (var i = 0, len = hero_names.length; i < len; i++) {
+				$('select.hero_select').append("<OPTION>"+hero_names[i]+"</OPTION>");
+			}
+		}
+	);
+});
+
+function update_suggestions() {
+	if (current_map) {
+		// Get ban suggestions
+		update_ban_suggestions();
+
+		// Get players suggestions
+		update_players_suggestions();
+	} else {
+		alert('Please select a map.');
+	}
+}
+
+function update_ban_suggestions() {
+	ban_suggestions = get_ban_suggestions();
+	display = "";
+	for (var i = 0; i < 8; i++) {
+		hero = ban_suggestions[i];
+		name = hero['hero'];
+		score = hero['score'];
+		display += "<SPAN style='padding: 5px'>"+ name + " (" + score.toFixed(0) + ")</SPAN>";
+	}
+	console.log(display);
+	$('#suggested_bans').html(display);
+}
+
+function get_ban_suggestions() {
+	available_heroes = get_available_heroes();
+	possible_bans = [];
+	for (var i=0, len=available_heroes.length; i < len; i++) {
+		hero = available_heroes[i];
+		m = map_data[current_map][hero];
+		score = ( m['Games Banned'] + m['Games Played'] ) * m['Win Percent'] ;
+		possible_bans.push({'hero':hero, 'score':score});
+	}
+	possible_bans.sort(function(a,b){
+		return a['score'] - b['score'];
+	});
+
+	return possible_bans.reverse();
+}
+
+function update_players_suggestions() {
+	$('select.player_select').each(function(){
+		if (player_id = $(this).val()) {
+			player_suggestions = get_player_suggestions(player_id);
+			display = "";
+			for (var i = 0; i < 3; i++) {
+				hero = player_suggestions[i];
+				name = hero['hero'];
+				score = hero['score'];
+				display += "<SPAN style='padding: 5px'>"+ name + " (" + score.toFixed(0) + "%)</SPAN>";
+			}
+			$(this).closest('tr').find('.hero_suggestions').html(display);
+		}
+	});
+}
+
+function get_player_suggestions(player_id) {
+	available_heroes = get_available_heroes();
+	possible_heroes = [];
+	for (var i=0, len=available_heroes.length; i < len; i++) {
+		hero = available_heroes[i]
+		m = map_data[current_map][hero]
+		p = player_data[player_id][hero]
+		if (m && p) {
+			score = Math.pow( m['Win Percent'] * p['Win Percent'], 1/2 ) * 100
+			possible_heroes.push({'hero':hero, 'score':score});
+		}
+	}
+	possible_heroes.sort(function(a,b){
+		return a['score'] - b['score'];
+	});
+
+	return possible_heroes.reverse();
+}
+
+function get_available_heroes() {
+	heroes = {};
+	for (var i = 0, len = hero_names.length; i < len; i++) {
+		heroes[hero_names[i]] = null;
+	}
+
+	$('select.hero_select').each(function(){
+		if ( hero_name = $(this).val() ) {
+			delete heroes[hero_name];
+		}
+	});
+
+	return Object.keys(heroes);
+}
+
