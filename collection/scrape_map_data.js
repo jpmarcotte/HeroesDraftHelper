@@ -8,9 +8,7 @@ process_map_rows = function() {
 		row = window.map_rows.shift();
 		$(row).find('button').click();
 		wait_for_state(page_ready, process_map_rows, 100);
-	} else {
-		window.maps_opened = true;
-	}
+	} else { window.maps_opened = true; }
 }
 
 parse_maps = function() {
@@ -40,9 +38,12 @@ parse_maps = function() {
 		heroes_data = {};
 		$(map_hero_table).find('tbody > tr').each(function(){
 			hero_data = {};
-			for (field in hero_keys) { hero_data[field] = $(this).find('td').eq(hero_keys[field]).text().trim().replace(" %","%"); }
-			hero_name = hero_data['Hero'];
-			delete hero_data['Hero'];
+			for (field in hero_keys) {
+				value = $(this).find('td').eq(hero_keys[field]).text().trim()
+				if (field == 'Hero') { hero_name = value; }
+				else if (field == 'Games Banned' || field == 'Games Played') { hero_data[field] = parseInt(value,10); }
+				else if (field == 'Popularity' || field == 'Win Percent') { hero_data[field] = (parseFloat(value)/100).toFixed(3); }
+			}
 			heroes_data[hero_name] = hero_data;
 		});
 
@@ -66,5 +67,3 @@ wait_for_state(function(){return window.maps_ready;}, function() {
 });
 
 wait_for_state(function(){return window.maps_opened;}, parse_maps, 1000);
-
-
