@@ -11,5 +11,4 @@ $.getScript("https://cdn.rawgit.com/jpmarcotte/HeroesDraftHelper/master/collecti
 Copy the result and put it into /data/maps/map_data.json
 
 ## Player Data
-Create files in /data/players/ according to the README file there.
-run the scrape_player_data.py file.
+Create files in /data/players/ according to the README file there, then run the scrape_player_data.py file.
