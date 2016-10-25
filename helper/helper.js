@@ -4,6 +4,7 @@ var player_data = {};
 var current_map = null;
 var hero_names = [];
 var hero_sub_roles = {};
+var sub_role_classes = {};
 
 $(document).ready(function() {
 	// Load Player functionality
@@ -40,6 +41,10 @@ $(document).ready(function() {
 		'../data/hero_sub_roles.json',
 		function(data) {
 			window.hero_sub_roles = data;
+			for (hero in data) {
+				role = data[hero];
+				sub_role_classes[role] = role.replace(' ','');
+			}
 		}
 	);
 
@@ -74,6 +79,10 @@ function update_suggestions() {
 	}
 }
 
+function hero_display(name, score) {
+	return '<SPAN class="hero '+sub_role_classes[hero_sub_roles[name]]+'" alt="'+hero_sub_roles[name]+'">'+ name + ' (' + score + ')</SPAN>';
+}
+
 function update_ban_suggestions() {
 	ban_suggestions = get_ban_suggestions();
 	display = "";
@@ -81,7 +90,7 @@ function update_ban_suggestions() {
 		hero = ban_suggestions[i];
 		name = hero['hero'];
 		score = hero['score'];
-		display += "<SPAN style='padding: 5px'>"+ name + " (" + score.toFixed(0) + ")</SPAN>";
+		display += hero_display(name,score.toFixed(0));
 	}
 	console.log(display);
 	$('#suggested_bans').html(display);
@@ -112,7 +121,7 @@ function update_players_suggestions() {
 				hero = player_suggestions[i];
 				name = hero['hero'];
 				score = hero['score'];
-				display += "<SPAN style='padding: 5px'>"+ name + " (" + score.toFixed(0) + "%)</SPAN>";
+				display += hero_display(name,score.toFixed(0));
 			}
 			$(this).closest('tr').find('.hero_suggestions').html(display);
 		}

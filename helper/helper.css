@@ -1,0 +1,71 @@
+/* Blizzard Fonts */
+@font-face {
+	font-family: Blizzard;
+	font-style: normal;
+	font-weight: 300;
+	src: local("Blizzard Light"), local("Blizzard-Light"), url(http://us.battle.net/heroes/static/css/toolkit/fonts/blizzard-light.woff) format("woff");
+}
+@font-face {
+	font-family: Blizzard;
+	font-style: normal;
+	font-weight: 400;
+	src: local("Blizzard"), local("Blizzard"), url(http://us.battle.net/heroes/static/css/toolkit/fonts/blizzard-regular.woff) format("woff");
+}
+@font-face {
+	font-family: Blizzard;
+	font-style: italic;
+	font-weight: 400;
+	src: local("Blizzard Italic"), local("Blizzard-Italic"), url(http://us.battle.net/heroes/static/css/toolkit/fonts/blizzard-regular-italic.woff) format("woff");
+}
+@font-face {
+	font-family: Blizzard;
+	font-style: normal;
+	font-weight: 700;
+	src: local("Blizzard Bold"), local("Blizzard-Bold"), url(http://us.battle.net/heroes/static/css/toolkit/fonts/blizzard-bold.woff) format("woff");
+}
+@font-face {
+	font-family: heroes-icon;
+	src: url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.eot?adcul8);
+	src: url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.eot?#iefixadcul8) format('embedded-opentype'), url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.woff?adcul8) format('woff'), url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.ttf?adcul8) format('truetype'), url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.svg?adcul8#icomoon) format('svg');
+	font-weight: 400;
+	font-style: normal
+}
+@font-face {
+	font-family: battlegrounds-icon;
+	src: url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.eot?adcul8);
+	src: url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.eot?#iefixadcul8) format('embedded-opentype'), url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.woff?adcul8) format('woff'), url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.ttf?adcul8) format('truetype'), url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.svg?adcul8#icomoon) format('svg');
+	font-weight: 400;
+	font-style: normal
+}
+
+
+select { width: 100% }
+span.hero {
+	margin: 5px;
+	padding: 4px;
+}
+body { font-family: "Blizzard", sans-serif; }
+
+/* Sub Roles */
+.hero:before {
+	font-family: heroes-icon;
+	font-size: 1.5em;
+	vertical-align: text-bottom;
+}
+
+/* Blizzard Icons, but HotS Logs Roles */ 
+.Tank:before, .Bruiser:before { content: "\e603" } /* Warrior Icon */
+.Healer:before, .Support:before { content: "\e604" } /* Support Icon */
+.Siege:before, .Utility:before { content: "\e605" } /* Specialist Icon */
+.Ambusher:before, .BurstDamage:before, .SustainedDamage:before { content: "\e606" } /* Assassin Icon */
+				
+.Tank:before { color: #CC9 }
+.Bruiser:before { color: #E3A23B }
+.Healer:before { color: #3BE33B }
+.Support:before { color: #60CDCD }
+.Ambusher:before { color: #E3E33B }
+.BurstDamage:before { color: #E33B3B }
+.SustainedDamage:before { color: #E33B8E }
+.Siege:before { color: #A660E8 }
+.Utility:before { color: #DDD }
+

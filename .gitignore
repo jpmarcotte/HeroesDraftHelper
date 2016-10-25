@@ -1,4 +1,5 @@
 # IDE files
+.sw*
 .*.sw*
 
 # Ddata should be generated, not be tracked
