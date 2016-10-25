@@ -5,6 +5,8 @@ var current_map = null;
 var hero_names = [];
 var hero_sub_roles = {};
 var sub_role_classes = {};
+var num_ban_suggestions = 10;
+var num_player_suggestions = 4;
 
 function load_player_data(player_id) {
 	$('#load_player_message').text('');
@@ -99,7 +101,7 @@ function hero_display(name, score) {
 function update_ban_suggestions() {
 	ban_suggestions = get_ban_suggestions();
 	display = "";
-	for (var i = 0; i < 8; i++) {
+	for (var i = 0; i < num_ban_suggestions; i++) {
 		hero = ban_suggestions[i];
 		name = hero['hero'];
 		score = hero['score'];
@@ -130,7 +132,7 @@ function update_players_suggestions() {
 		if (player_id = $(this).val()) {
 			player_suggestions = get_player_suggestions(player_id);
 			display = "";
-			for (var i = 0; i < 3; i++) {
+			for (var i = 0; i < num_player_suggestions; i++) {
 				hero = player_suggestions[i];
 				name = hero['hero'];
 				score = hero['score'];

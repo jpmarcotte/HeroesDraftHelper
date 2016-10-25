@@ -41,8 +41,10 @@
 
 select { width: 100% }
 span.hero {
-	margin: 5px;
+	margin: 0 5px;
 	padding: 4px;
+	white-space: nowrap;
+	display: inline-block;
 }
 body { font-family: "Blizzard", sans-serif; }
 
