@@ -93,7 +93,7 @@ function update_suggestions() {
 }
 
 function hero_display(name, score) {
-	return '<SPAN class="hero '+sub_role_classes[hero_sub_roles[name]]+'" alt="'+hero_sub_roles[name]+'">'+ name + ' (' + score + ')</SPAN>';
+	return '<SPAN class="hero '+sub_role_classes[hero_sub_roles[name]]+'" title="'+hero_sub_roles[name]+'">'+ name + ' (' + score + ')</SPAN>';
 }
 
 function update_ban_suggestions() {
