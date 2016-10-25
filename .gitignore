@@ -1,7 +1,5 @@
 # IDE files
 .*.sw*
 
-
-# Player data should not be tracked
-/data/players/
-/data/maps/
+# Ddata should be generated, not be tracked
+/data/
