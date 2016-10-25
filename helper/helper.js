@@ -3,7 +3,7 @@ var form = this;
 var player_data = {};
 var current_map = null;
 var hero_names = [];
-
+var hero_sub_roles = {};
 
 $(document).ready(function() {
 	// Load Player functionality
@@ -35,6 +35,13 @@ $(document).ready(function() {
 	$('select').change(function() {
 		update_suggestions();
 	});
+
+	$.getJSON(
+		'../data/hero_sub_roles.json',
+		function(data) {
+			window.hero_sub_roles = data;
+		}
+	);
 
 	// Load map data
 	$.getJSON(
