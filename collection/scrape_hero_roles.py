@@ -28,6 +28,8 @@ br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.
 WEB_URL = 'http://www.hotslogs.com/Info/HeroSubRole'
 DATA_FILE = '../data/hero_sub_roles.JSON'
 
+print "Collecting Hero Sub-Role Data."
+
 br.open(WEB_URL)
 soup = BeautifulSoup(br.response().read(), 'html.parser')
 

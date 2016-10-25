@@ -6,26 +6,30 @@ var hero_names = [];
 var hero_sub_roles = {};
 var sub_role_classes = {};
 
+function load_player_data(player_id) {
+	$('#load_player_message').text('');
+	$.ajax({
+		dataType: 'json',
+		url: '../data/players/'+player_id+'.JSON',
+		success: function(data) {
+			$('#load_player_message').text('Successfully loaded player data.');
+			if (player_data[player_id] == undefined) {
+				$('select.player_select').append("<OPTION value='"+player_id+"'>"+player_id+"</OPTION>");
+			}
+			player_data[player_id] = data;
+		},
+		error: function() {
+			$('#load_player_message').text('Could not load player data.');
+		}
+	});
+}
+
 $(document).ready(function() {
 	// Load Player functionality
 	$('form#load_player_form').submit(function(e){
 		e.preventDefault();
 		var player_id = this.player_region.value + "_" + this.bt_name.value + "_" + this.bt_number.value;
-		$('#load_player_message').text('');
-		$.ajax({
-			dataType: 'json',
-			url: '../data/players/'+player_id+'.JSON',
-			success: function(data) {
-				$('#load_player_message').text('Successfully loaded player data.');
-				if (player_data[player_id] == undefined) {
-					$('select.player_select').append("<OPTION value='"+player_id+"'>"+player_id+"</OPTION>");
-				}
-				player_data[player_id] = data;
-			},
-			error: function() {
-				$('#load_player_message').text('Could not load player data.');
-			}
-		});
+		load_player_data(player_id);
 	});
 
 	// Set current map whenever map is changed.
@@ -44,6 +48,15 @@ $(document).ready(function() {
 			for (hero in data) {
 				role = data[hero];
 				sub_role_classes[role] = role.replace(' ','');
+			}
+		}
+	);
+
+	$.getJSON(
+		'../data/players/player_list.JSON',
+		function(data) {
+			for (var i = 0, len = data.length; i < len; i++) {
+				load_player_data(data[i]);
 			}
 		}
 	);

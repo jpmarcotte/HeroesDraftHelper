@@ -38,6 +38,7 @@ WEB_URL = 'http://www.hotslogs.com/Player/Profile'
 DATA_DIRECTORY = '../data/players/'
 
 player_file_re = re.compile('^(\d)_(\w+_\d+).json$', re.IGNORECASE)
+player_list = []
 
 player_files = [f for f in listdir(DATA_DIRECTORY) if isfile(join(DATA_DIRECTORY, f))]
 for file in player_files:
@@ -46,6 +47,7 @@ for file in player_files:
 	if match:
 		# Get the player ID from the API call.
 		print "Region %s, Player ID: %s" % (match.group(1), match.group(2))
+		player_list.append("%s_%s" % (match.group(1), match.group(2)))
 
 		br.open('%s%s/%s' % (API_URL, match.group(1), match.group(2)))
 		player_info = json.load(br.response())
@@ -95,3 +97,8 @@ for file in player_files:
 		# Store Player Data
 		f = open(join(DATA_DIRECTORY,file),'w')
 		f.write(json.dumps(player_data))
+		f.close()
+
+l = open(join(DATA_DIRECTORY,'player_list.JSON'),'w')
+l.write(json.dumps(player_list))
+
