@@ -17,18 +17,19 @@
 			"48": "images/icon48.png",
 			"128": "images/icon128.png"
 		},
-		"default_title": "Heroes Draft Helper"
+		"default_title": "Heroes Draft Helper",
+		"default_popup": "popup.html"
 	},
 
 	"author": "Jacques Marcotte",
 
 	"content_scripts": [
 		{
-			"matches": ["http://www.hotslogs.com/Player/Profile?*"],
+			"matches": ["*://*.hotslogs.com/Player/Profile?*"],
 			"js": ["jquery-3.1.1.min.js", "storage.js", "profile.js"]
 		},
 		{
-			"matches": ["http://www.hotslogs.com/Sitewide/HeroAndMapStatistics"],
+			"matches": ["*://*.hotslogs.com/Sitewide/HeroAndMapStatistics"],
 			"js": ["jquery-3.1.1.min.js", "storage.js", "maps.js"]
 		}
 	],
