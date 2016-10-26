@@ -1,6 +1,7 @@
-# IDE files
+# IDE and OS files
 .sw*
 .*.sw*
+.DS_Store
 
 # Ddata should be generated, not be tracked
 /data/
