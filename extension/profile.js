@@ -8,23 +8,22 @@ document.addEventListener('Clear_Storage', function(e) {
 	chrome.storage.sync.clear();
 });
 
+document.addEventListener('Get_All_Storage', function(e) {
+	chrome.storage.sync.get(function(items){ console.log(items); });
+});
+
 document.addEventListener('Get_Player_Data', function(e) {
 	chrome.storage.sync.get(
-		'player_data',
+		'player:'+e.detail.ID,
 		function(items) {
-			console.log(items.player_data);
+			console.log(items);
 		}
 	);
 });
 
 document.addEventListener('Store_Player_Data', function(e) {
-	console.log("Storing Data for player "+e.detail.name);
-	chrome.storage.sync.get(
-		'player_data',
-		function(items) {
-			player_data = items.player_data || {};
-			player_data[e.detail.ID] = e.detail;
-			chrome.storage.sync.set({'player_data': player_data});
-		}
-	);
+	console.log("Storing Data for "+e.detail.name);
+	data = {};
+	data["player:"+e.detail.ID] = e.detail;
+	chrome.storage.sync.set(data);
 });
