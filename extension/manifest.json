@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Heroes Draft Helper",
 	"short_name": "HotS Drafter",
-	"version": "0.2.1.4", // Major Version; Minor / Feature Version; Bug Fix Version; Build #
+	"version": "0.2.1.5", // Major Version; Minor / Feature Version; Bug Fix Version; Build #
 	
 	"description": "Heroes of the Storm Draft Helper that utilizes data from HotSLogs.com and takes into account player skill with each Hero.",
 	"icons": {
@@ -11,7 +11,7 @@
 		"128": "images/icon128.png"
 	},
 
-	"page_action": {
+	"browser_action": {
 		"default_icon": {
 			"16": "images/icon16.png",
 			"48": "images/icon48.png",
@@ -31,6 +31,10 @@
 		{
 			"matches": ["*://*.hotslogs.com/Sitewide/HeroAndMapStatistics"],
 			"js": ["jquery-3.1.1.min.js", "storage.js", "maps.js"]
+		},
+		{
+			"matches": ["*://*.hotslogs.com/Info/HeroSubRole"],
+			"js": ["jquery-3.1.1.min.js", "storage.js", "roles.js"]
 		}
 	],
 
@@ -40,7 +44,8 @@
 	// https://developer.chrome.com/extensions/declare_permissions
 	"permissions": [
 		"http://www.hotslogs.com/*",
-		"storage"
+		"storage",
+		"tabs"
 	],
 
 	// I don't think we'll need these, but maybe?

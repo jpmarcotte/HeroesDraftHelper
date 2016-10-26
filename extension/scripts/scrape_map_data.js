@@ -53,7 +53,8 @@ parse_maps = function() {
 
 		document.dispatchEvent(new CustomEvent('Store_Map_Data', { 'detail': {
 			'map': map_name,
-			'heroes': heroes_data
+			'heroes': heroes_data,
+			'timestamp': Date.now()
 		}}));
 	}
 

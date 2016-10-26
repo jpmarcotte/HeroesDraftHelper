@@ -1,7 +1,7 @@
 $.getScript(chrome.extension.getURL('scripts/player_data.js'));
 
 $('div#MainContent_divDropDowns > div.RadDropDownList').last().after(
-		'<DIV class="RadDropDownList RadDropDownList_Black" style="font-size:Larger; cursor:pointer"><SPAN class="rddlInner"><SPAN class="rddlFakeInput" onclick="store_player_data()">Store Player Data</SPAN></SPAN></DIV>'
+		'<DIV class="RadDropDownList RadDropDownList_Black" style="font-size:Larger; cursor:pointer" onclick="store_player_data()"><SPAN class="rddlInner"><SPAN class="rddlFakeInput">Store Player Data</SPAN></SPAN></DIV>'
 );
 
 document.addEventListener('Get_Player_Data', function(e) {
