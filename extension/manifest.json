@@ -26,6 +26,10 @@
 		{
 			"matches": ["http://www.hotslogs.com/Player/Profile?*"],
 			"js": ["jquery-3.1.1.min.js", "profile.js"]
+		},
+		{
+			"matches": ["http://www.hotslogs.com/Sitewide/HeroAndMapStatistics"],
+			"js": ["jquery-3.1.1.min.js", "maps.js"]
 		}
 	],
 
