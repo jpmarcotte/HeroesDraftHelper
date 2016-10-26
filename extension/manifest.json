@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Heroes Draft Helper",
 	"short_name": "HotS Drafter",
-	"version": "0.0.0.1", // Major Version; Minor / Feature Version; Bug Fix Version; Build #
+	"version": "0.1.0.2", // Major Version; Minor / Feature Version; Bug Fix Version; Build #
 	
 	"description": "Heroes of the Storm Draft Helper that utilizes data from HotSLogs.com and takes into account player skill with each Hero.",
 	"icons": {
@@ -22,6 +22,13 @@
 
 	"author": "Jacques Marcotte",
 
+	"content_scripts": [
+		{
+			"matches": ["http://www.hotslogs.com/Player/Profile?*"],
+			"js": ["jquery-3.1.1.min.js", "profile.js"]
+		}
+	],
+
 	// https://developer.chrome.com/extensions/manifest/event_rules
 	// Will possibly use for declarativeContent
 	"event_rules": [
@@ -39,6 +46,7 @@
 
 	// I don't think we'll need these, but maybe?
 	"web_accessible_resources": [
+		"scripts/*"
 	]
 
 }
