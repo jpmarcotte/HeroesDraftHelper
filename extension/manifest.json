@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Heroes Draft Helper",
 	"short_name": "HotS Drafter",
-	"version": "0.2.0.3", // Major Version; Minor / Feature Version; Bug Fix Version; Build #
+	"version": "0.2.1.4", // Major Version; Minor / Feature Version; Bug Fix Version; Build #
 	
 	"description": "Heroes of the Storm Draft Helper that utilizes data from HotSLogs.com and takes into account player skill with each Hero.",
 	"icons": {
@@ -25,11 +25,11 @@
 	"content_scripts": [
 		{
 			"matches": ["http://www.hotslogs.com/Player/Profile?*"],
-			"js": ["jquery-3.1.1.min.js", "profile.js"]
+			"js": ["jquery-3.1.1.min.js", "storage.js", "profile.js"]
 		},
 		{
 			"matches": ["http://www.hotslogs.com/Sitewide/HeroAndMapStatistics"],
-			"js": ["jquery-3.1.1.min.js", "maps.js"]
+			"js": ["jquery-3.1.1.min.js", "storage.js", "maps.js"]
 		}
 	],
 
