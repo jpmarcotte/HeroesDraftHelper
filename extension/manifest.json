@@ -25,21 +25,21 @@
 
 	// https://developer.chrome.com/extensions/manifest/event_rules
 	// Will possibly use for declarativeContent
-	"event_rules": {
-	},
+	"event_rules": [
+	],
 
 	"homepage_url": "https://github.com/jpmarcotte/HeroesDraftHelper",
 	"incognito": "split",
 
 	// https://developer.chrome.com/extensions/declare_permissions
-	"permissions": {
+	"permissions": [
 		"http://www.hotslogs.com/*",
 		"declarativeContent",
 		"storage"
-	},
+	],
 
 	// I don't think we'll need these, but maybe?
-	"web_accessible_resources": {
-	}
+	"web_accessible_resources": [
+	]
 
 }
