@@ -1,4 +1,9 @@
-.row {
-	width: 100%;
-	white-space: nowrap;
+body {
+	width: 500px;
+	padding: 0 20 10 20;
+}
+
+/* Extend Bootstrap label class */
+.label-as-badge {
+    border-radius: 1em;
 }
