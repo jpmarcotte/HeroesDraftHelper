@@ -3,6 +3,10 @@ body {
 	padding: 0 20 10 20;
 }
 
+.row {
+	padding-bottom:  5px;
+}
+
 /* Extend Bootstrap label class */
 .label-as-badge {
     border-radius: 1em;

@@ -18,9 +18,9 @@ $(document).ready(function(){
 			$('#num_players').text(key_types.player);
 			if (key_types.player < 5) {
 				$('#num_players').addClass('label-warning');
-				data_errors.push({kind: "warning", msg: "You have fewer than a full party's Player data loaded."});
+				data_errors.push({kind: "warning", msg: "<span class='glyphicon glyphicon-exclamation-sign'></span> You have fewer than a full party's Player data loaded.  Do you need to Collect your teammates' data?"});
 			} else {
-				$('#num_players').addClass('label-default');
+				$('#num_players').addClass('label-primary');
 			}
 		} else {
 			$('#num_players').addClass('label-danger');
@@ -29,7 +29,7 @@ $(document).ready(function(){
 
 		if(key_types.map) {
 			$('#num_maps').text(key_types.map);
-			$('#num_maps').addClass('label-default');
+			$('#num_maps').addClass('label-primary');
 		} else {
 			$('#num_maps').addClass('label-danger');
 			data_errors.push({kind: "danger", msg: "You need to load maps data before usage."});
@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 		if (key_types.hero_sub_roles) {
 			$('#num_herosubs').text(sub_role_count);
-			$('#num_herosubs').addClass('label-default');
+			$('#num_herosubs').addClass('label-primary');
 		} else {
 			$('#num_herosubs').addClass('label-danger');
 			data_errors.push({kind: "danger", msg: "You need to load Hero Sub-roles before usage."});
@@ -68,10 +68,7 @@ $(document).ready(function(){
 		if (enable_draft_helper) {
 			html = `
 				<div class="row">
-					<div class="col-xs-6">
-						You are good to go!
-					</div>
-					<div class="col-xs-6">
+					<div class="col-xs-12 text-center">
 						<button id="draft_helper_button" type="button" class="btn btn-success">Open Draft Helper</button>
 					</div>
 				</div>`;
