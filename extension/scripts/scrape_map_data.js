@@ -46,7 +46,10 @@ parse_maps = function() {
 				value = $(this).find('td').eq(hero_keys[field]).text().trim()
 				if (field == 'Hero') { hero_name = value; }
 				else if (field == 'Games Banned' || field == 'Games Played') { hero_data[field] = parseInt(value,10); }
-				else if (field == 'Popularity' || field == 'Win Percent') { hero_data[field] = (parseFloat(value)/100).toFixed(3); }
+				else if (field == 'Win Percent') {
+					// toFixed corrects computer rounding errors, but returns a string, so is parsed again.
+					hero_data[field] = parseFloat((parseFloat(value)/100).toFixed(3));
+				}
 			}
 			heroes_data[hero_name] = hero_data;
 		});
