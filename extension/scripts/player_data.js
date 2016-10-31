@@ -32,13 +32,16 @@ var collect_player_data = function() {
 		for (field in hero_keys) {
 			value = $(this).find('td').eq(hero_keys[field]).text().trim()
 			if (field == 'Hero') { hero_name = value; }
-			else if (field == 'Games Banned' || field == 'Games Played') { hero_data[field] = parseInt(value,10); }
-			else if (field == 'Popularity' || field == 'Win Percent') {
-				// Double parseFloat prevents computer rounding errors.
+			else if (field == 'Games Played') { hero_data[field] = parseInt(value,10); }
+			else if (field == 'Win Percent') {
+				// toFixed corrects computer rounding errors, but returns a string, so is parsed again.
 				hero_data[field] = parseFloat((parseFloat(value)/100).toFixed(3));
 			}
 		}
-		heroes_data[hero_name] = hero_data;
+		if (hero_data['Win Percent']) {
+			// Ignore heroes that don't have enough games played.
+			heroes_data[hero_name] = hero_data;
+		}
 	});
 
 	player_data = {
