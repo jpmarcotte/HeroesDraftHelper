@@ -13,7 +13,7 @@ $(document).ready(function() {
 		console.log(items);
 		for (key in items) {
 			key_type = key.split(':')[0];
-			console.log(key+" is a "+key_type);
+			//console.log(key+" is a "+key_type);
 			if (key_type == 'map') {
 				map_name = items[key].map;
 				map_data[map_name] = items[key].heroes;
@@ -116,7 +116,7 @@ function get_player_suggestions(player_id) {
 		hero = available_heroes[i]
 		m = map_data[current_map][hero]
 		p = player_data[player_id][hero]
-		if (m && p) {
+		if (m && p && p['Win Percent']) {
 			player_confidence = p['Win Percent'] * p['Games Played'] / (p['Games Played'] + 1);
 			score = Math.pow( m['Win Percent'] * player_confidence, 1/2 ) * 100
 			possible_heroes.push({'hero':hero, 'score':score});
