@@ -75,7 +75,7 @@ store_map_data = function() {
 	// Provide feedback
 	$('#HDH_MapProcessingIcon').removeClass().addClass('fa fa-spinner fa-spin');
 	$('#HDH_StoreMapDataButton .lbl').text("Processing...");
-	$('#HDH_StoreMapDataButton').removeClass().addClass('btn btn-info');
+	$('#HDH_StoreMapDataButton').removeClass().addClass('btn btn-info disabled');
 	
 	console.log("Selecting Hero League");
 	$("div#ctl00_MainContent_DropDownGameMode_DropDown li:contains('Hero League')").click();
@@ -97,7 +97,7 @@ store_map_data = function() {
 		function(){return window.maps_parsed;},
 		function() {
 			$('#HDH_MapProcessingIcon').removeClass().addClass('fa fa-check');
-			$('#HDH_StoreMapDataButton .lbl').text("Map Data Stored!");
+			$('#HDH_StoreMapDataButton .lbl').text("Map Data Stored! (Click again to re-load data if you wish)");
 			$('#HDH_StoreMapDataButton').removeClass().addClass('btn btn-success');
 		},
 		1000);

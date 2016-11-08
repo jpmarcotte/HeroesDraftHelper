@@ -1,7 +1,11 @@
 $.getScript(chrome.extension.getURL('scripts/role_data.js'));
 
-$('header').append(
-		'<DIV class="RadDropDownList RadDropDownList_Black" style="font-size:Larger; cursor:pointer" onclick="store_role_data()"><SPAN class="rddlInner"><SPAN class="rddlFakeInput">Store Role Data</SPAN></SPAN></DIV>'
+// Moved button to Title area for consistency with other data scrape pages
+$('header').append(`
+	<button id="HDH_StoreRoleDataButton" type="button" class="btn btn-primary" style="margin-bottom:10px;" onclick="store_role_data()">
+		<i id="HDH_RoleProcessingIcon" class="fa fa-download"></i>
+		<span class="lbl">Store Role Data for Heroes Draft Helper</span>
+	</button>`
 );
 
 document.addEventListener('Get_Role_Data', function(e) {

@@ -1,7 +1,11 @@
 $.getScript(chrome.extension.getURL('scripts/player_data.js'));
 
-$('div#MainContent_divDropDowns > div.RadDropDownList').last().after(
-		'<DIV class="RadDropDownList RadDropDownList_Black" style="font-size:Larger; cursor:pointer" onclick="store_player_data()"><SPAN class="rddlInner"><SPAN class="rddlFakeInput">Store Player Data</SPAN></SPAN></DIV>'
+// Moved button to Title area for consistency with other data scrape pages
+$('#h1Title').append(`
+	<button id="HDH_StorePlayerDataButton" type="button" class="btn btn-primary" style="margin-bottom:10px;" onclick="store_player_data()">
+		<i id="HDH_PlayerProcessingIcon" class="fa fa-download"></i>
+		<span class="lbl">Store Player Data for Heroes Draft Helper</span>
+	</button>`
 );
 
 document.addEventListener('Get_Player_Data', function(e) {
