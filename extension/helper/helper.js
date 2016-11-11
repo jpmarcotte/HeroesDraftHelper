@@ -82,9 +82,10 @@ function get_ban_suggestions() {
 	possible_bans = [];
 	for (var i=0, len=available_heroes.length; i < len; i++) {
 		hero = available_heroes[i];
-		m = map_data[current_map][hero];
-		score = ( m['Games Banned'] + m['Games Played'] ) * m['Win Percent'] ;
-		possible_bans.push({'hero':hero, 'score':score});
+		if (m = map_data[current_map][hero]) {
+			score = ( m['Games Banned'] + m['Games Played'] ) * m['Win Percent'] ;
+			possible_bans.push({'hero':hero, 'score':score});
+		}
 	}
 	possible_bans.sort(function(a,b){
 		return a['score'] - b['score'];
