@@ -116,9 +116,10 @@ function get_ban_suggestions() {
 	possible_bans = [];
 	for (var i=0, len=available_heroes.length; i < len; i++) {
 		hero = available_heroes[i];
-		m = map_data[current_map][hero];
-		score = ( m['Games Banned'] + m['Games Played'] ) * m['Win Percent'] ;
-		possible_bans.push({'hero':hero, 'score':score});
+		if (m = map_data[current_map][hero]) {
+			score = ( m['Games Banned'] + m['Games Played'] ) * m['Win Percent'] ;
+			possible_bans.push({'hero':hero, 'score':score});
+		}
 	}
 	possible_bans.sort(function(a,b){
 		return a['score'] - b['score'];
@@ -151,7 +152,7 @@ function get_player_suggestions(player_id) {
 		m = map_data[current_map][hero]
 		p = player_data[player_id][hero]
 		if (m && p && p['Win Percent']) {
-			player_confidence = p['Win Percent'] * p['Games Played'] / (p['Games Played'] + 1);
+			player_confidence = ( p['Win Percent'] * p['Games Played'] - 1 ) / (p['Games Played'] + 1);
 			score = Math.pow( m['Win Percent'] * player_confidence, 1/2 ) * 100
 			possible_heroes.push({'hero':hero, 'score':score});
 		}
