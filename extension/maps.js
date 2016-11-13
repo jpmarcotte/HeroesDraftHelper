@@ -1,7 +1,11 @@
 $.getScript(chrome.extension.getURL('scripts/scrape_map_data.js'));
 
-$('#MainContent_divControlContainer > div.divInline').first().append(
-		'<DIV class="RadComboBox RadComboBox_Black" style="font-size:Larger;" onclick="store_map_data()"><SPAN class="rcbInner rcbReadOnly"><SPAN class="rcbInput radPreventDecorate" style="cursor:pointer">Store Map Data</SPAN></SPAN></DIV>'
+// Moved button outside of UpdatePanel to avoid displacement in the DOM
+$('#h1Title').append(`
+	<button id="HDH_StoreMapDataButton" type="button" class="btn btn-primary" onclick="store_map_data()">
+		<i id="HDH_MapProcessingIcon" class="fa fa-download"></i>
+		<span class="lbl">Store Map Data for Heroes Draft Helper</span>
+	</button>`
 );
 
 document.addEventListener('Get_Map_Data', function(e) {
