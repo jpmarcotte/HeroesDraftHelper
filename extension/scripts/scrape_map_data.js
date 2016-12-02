@@ -116,6 +116,7 @@ console.log("Parsing map " + idx);
 	window.curr_map_parsing = -1;
 	window.total_maps_parsed = window.total_maps_parsed + 1;
 	window.last_map_parsed = idx;
+	process_maps();
 }
 
 // Main recursive processing function
@@ -139,9 +140,6 @@ process_maps = function() {
 		// All done!
 		window.done_processing = true;
 	}
-	
-	// Keep going until we're done
-	wait_for_state(window.done_processing, process_maps(), 1000);
 }
 
 store_map_data = function() {
