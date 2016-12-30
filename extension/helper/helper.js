@@ -6,7 +6,7 @@ var hero_names = [];
 var hero_sub_roles = {};
 var sub_role_classes = {};
 var num_ban_suggestions = 10;
-var num_player_suggestions = 4;
+var num_player_suggestions = 8;
 
 $(document).ready(function() {
 	chrome.storage.sync.get(function(items) {
