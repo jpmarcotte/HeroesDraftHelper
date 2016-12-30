@@ -82,14 +82,8 @@ $(document).ready(function(){
 
 	});
 	
-	$('#collect_player_data').click(function(){
-		chrome.tabs.create({url: "http://www.hotslogs.com/Player/Profile"});
-	});
-	$('#collect_map_data').click(function(){
-		chrome.tabs.create({url: "http://www.hotslogs.com/Sitewide/HeroAndMapStatistics"});
-	});
-	$('#collect_role_data').click(function(){
-		chrome.tabs.create({url: "http://www.hotslogs.com/Info/HeroSubRole"});
+	$('button.collect-data').click(function(){
+		chrome.tabs.update({url: this.parentNode.href});
 	});
 
 });
