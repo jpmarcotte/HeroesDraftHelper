@@ -7,6 +7,7 @@ var hero_sub_roles = {};
 var sub_role_classes = {};
 var num_ban_suggestions = 10;
 var num_player_suggestions = 8;
+var num_general_suggestions = 10;
 
 $(document).ready(function() {
 	chrome.storage.sync.get(function(items) {
@@ -56,8 +57,9 @@ function update_suggestions() {
 
 		// Get players suggestions
 		update_players_suggestions();
-	} else {
-		alert('Please select a map.');
+
+		// Get general suggestions
+		update_general_suggestions();
 	}
 }
 
@@ -129,6 +131,36 @@ function get_player_suggestions(player_id) {
 
 	return possible_heroes.reverse();
 }
+
+function update_general_suggestions() {
+	general_suggestions = get_general_suggestions();
+	display = "";
+	for (var i = 0; i < num_general_suggestions; i++) {
+		hero = general_suggestions[i];
+		name = hero['hero'];
+		score = hero['score'];
+		display += hero_display(name,score.toFixed(0));
+	}
+	$('#general_suggestions').html(display);
+}
+
+function get_general_suggestions() {
+	available_heroes = get_available_heroes();
+	possible_heroes = [];
+	for (var i=0, len=available_heroes.length; i < len; i++) {
+		hero = available_heroes[i];
+		if (m = map_data[current_map][hero]) {
+			score = m['Win Percent'] * 10000;
+			possible_heroes.push({'hero':hero, 'score':score});
+		}
+	}
+	possible_heroes.sort(function(a,b){
+		return a['score'] - b['score'];
+	});
+
+	return possible_heroes.reverse();
+}
+
 
 function get_available_heroes() {
 	heroes = {};
