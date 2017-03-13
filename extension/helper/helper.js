@@ -150,7 +150,7 @@ function get_general_suggestions() {
 	for (var i=0, len=window.available_heroes.length; i < len; i++) {
 		hero = window.available_heroes[i];
 		if (m = map_data[current_map][hero]) {
-			score = m['Win Percent'] * 10000;
+			score = m['Win Percent'] * 1000;
 			possible_heroes.push({'hero':hero, 'score':score});
 		}
 	}
