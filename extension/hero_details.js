@@ -16,16 +16,9 @@ document.addEventListener('Get_Hero_Details', function (e) {
         });
 });
 
-document.addEventListener('Store_Hero_Duos', function (e) {
-    console.log("Storing Duo Data for " + e.detail.hero);
+document.addEventListener('Store_Hero_Details', function (e) {
+    console.log("Storing Data for " + e.detail.hero);
     data = {};
-    data["hero_duos:" + e.detail.hero] = e.detail;
-    chrome.storage.local.set(data);
-});
-
-document.addEventListener('Store_Hero_Matchups', function (e) {
-    console.log("Storing Matchup Data for " + e.detail.hero);
-    data = {};
-    data["hero_matchups:" + e.detail.hero] = e.detail;
+    data["hero_details:" + e.detail.hero] = e.detail;
     chrome.storage.local.set(data);
 });

@@ -52,8 +52,8 @@ $(document).ready(function(){
 			$('#num_hero_details').text(hero_detail_count);
 			$('#num_hero_details').addClass('label-primary');
 		} else {
-			$('#num_hero_details').addClass('label-danger');
-			data_errors.push({kind: "danger", msg: "You need to load Hero Details before usage."})
+			$('#num_hero_details').addClass('label-warning');
+			data_errors.push({kind: "warning", msg: "You need to load Hero Details before usage."})
 		}
 		
 		var html;

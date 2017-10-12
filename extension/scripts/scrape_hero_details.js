@@ -76,14 +76,6 @@ parse_hero = function (index) {
         matchups_data[matchup_name] = matchup_data;
     });
 
-    document.dispatchEvent(new CustomEvent('Store_Hero_Matchups', {
-        'detail': {
-            'hero': hero_name,
-            'matchups': matchups_data,
-            'timestamp': Date.now()
-        }
-    }));
-
     // Get Duos Data
     hero_duos_table = $('div#RadGridSitewideCharacterWinPercentWithOtherCharacters').find('table.rgMasterTable');
     // console.log(hero_duos_table);
@@ -112,10 +104,11 @@ parse_hero = function (index) {
     });
 
 
-    document.dispatchEvent(new CustomEvent('Store_Hero_Duos', {
+    document.dispatchEvent(new CustomEvent('Store_Hero_Details', {
         'detail': {
             'hero': hero_name,
             'duos': duos_data,
+            'matchups': matchups_data,
             'timestamp': Date.now()
         }
     }));
