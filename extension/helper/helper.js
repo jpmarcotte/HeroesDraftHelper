@@ -11,7 +11,7 @@ var num_player_suggestions = 8;
 var num_general_suggestions = 10;
 
 $(document).ready(function () {
-    chrome.storage.sync.get(function (items) {
+    chrome.storage.local.get(function (items) {
         console.log(items);
         for (key in items) {
             key_type = key.split(':')[0];

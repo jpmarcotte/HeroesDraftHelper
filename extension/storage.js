@@ -1,8 +1,8 @@
 document.addEventListener('Clear_Storage', function(e) {
-	chrome.storage.sync.clear();
+	chrome.storage.local.clear();
 });
 
 document.addEventListener('Get_All_Storage', function(e) {
-	chrome.storage.sync.get(function(items){ console.log(items); });
+	chrome.storage.local.get(function(items){ console.log(items); });
 });
 

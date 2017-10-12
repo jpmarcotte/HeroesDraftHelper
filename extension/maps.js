@@ -9,7 +9,7 @@ $('#h1Title').append(`
 );
 
 document.addEventListener('Get_Map_Data', function(e) {
-	chrome.storage.sync.get(
+	chrome.storage.local.get(
 		'map:'+e.detail.map,
 		function(items) {
 			console.log(items);
@@ -20,5 +20,5 @@ document.addEventListener('Store_Map_Data', function(e) {
 	console.log("Storing Data for "+e.detail.map);
 	data = {};
 	data["map:"+e.detail.map] = e.detail;
-	chrome.storage.sync.set(data);
+	chrome.storage.local.set(data);
 });

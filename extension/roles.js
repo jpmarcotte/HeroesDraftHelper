@@ -9,7 +9,7 @@ $('header').append(`
 );
 
 document.addEventListener('Get_Role_Data', function(e) {
-	chrome.storage.sync.get(
+	chrome.storage.local.get(
 		'hero_sub_roles',
 		function(items) {
 			console.log(items);
@@ -19,5 +19,5 @@ document.addEventListener('Get_Role_Data', function(e) {
 
 document.addEventListener('Store_Role_Data', function(e) {
 	console.log("Storing Hero Sub-Role Data");
-	chrome.storage.sync.set({'hero_sub_roles': e.detail});
+	chrome.storage.local.set({'hero_sub_roles': e.detail});
 });

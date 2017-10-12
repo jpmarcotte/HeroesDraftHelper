@@ -4,9 +4,9 @@ $(document).ready(function(){
 	var hero_detail_count = 0;
     var data_errors = new Array();
 	
-	chrome.storage.sync.get(function(items) {
+	chrome.storage.local.get(function(items) {
 		for (key in items) {
-			//console.log(key);
+			console.log(key);
 			var key_type = key.split(':')[0];
 			key_types[key_type] = (key_types[key_type] || 0) + 1;
 			if (key == 'hero_sub_roles') {
