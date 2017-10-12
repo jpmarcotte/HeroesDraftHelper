@@ -133,7 +133,7 @@ function update_players_suggestions() {
 		if (player_id = $(this).val()) {
 			player_suggestions = get_player_suggestions(player_id);
 			display = "";
-			for (var i = 0; i < num_player_suggestions; i++) {
+			for (var i = 0, num = Math.min(num_player_suggestions, player_suggestions.length); i < num; i++) {
 				hero = player_suggestions[i];
 				name = hero['hero'];
 				score = hero['score'];

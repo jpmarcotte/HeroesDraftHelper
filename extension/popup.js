@@ -1,7 +1,8 @@
 $(document).ready(function(){
 	var key_types = {};
 	var sub_role_count = 0;
-	var data_errors = new Array();
+	var hero_detail_count = 0;
+    var data_errors = new Array();
 	
 	chrome.storage.sync.get(function(items) {
 		for (key in items) {
@@ -10,6 +11,8 @@ $(document).ready(function(){
 			key_types[key_type] = (key_types[key_type] || 0) + 1;
 			if (key == 'hero_sub_roles') {
 				sub_role_count = Object.keys(items[key]).length;
+			} else if (key == 'hero_details') {
+				hero_detail_count = Object.keys(items[key]).length;
 			}
 		}
 
@@ -43,6 +46,14 @@ $(document).ready(function(){
 		} else {
 			$('#num_herosubs').addClass('label-danger');
 			data_errors.push({kind: "danger", msg: "You need to load Heroes/Roles data before usage."});
+		}
+
+		if (key_types.hero_details) {
+			$('#num_hero_details').text(hero_detail_count);
+			$('#num_hero_details').addClass('label-primary');
+		} else {
+			$('#num_hero_details').addClass('label-danger');
+			data_errors.push({kind: "danger", msg: "You need to load Hero Details before usage."})
 		}
 		
 		var html;
