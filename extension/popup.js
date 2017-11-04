@@ -11,8 +11,6 @@ $(document).ready(function () {
             key_types[key_type] = (key_types[key_type] || 0) + 1;
             if (key === 'hero_sub_roles') {
                 sub_role_count = Object.keys(items[key]).length;
-            } else if (key === 'hero_details') {
-                hero_detail_count = Object.keys(items[key]).length;
             }
         }
 
@@ -56,7 +54,7 @@ $(document).ready(function () {
 
         let numHeroDetails = $('#num_hero_details');
         if (key_types.hero_details) {
-            numHeroDetails.text(hero_detail_count);
+            numHeroDetails.text(key_types.hero_details);
             numHeroDetails.addClass('label-primary');
         } else {
             numHeroDetails.addClass('label-warning');
