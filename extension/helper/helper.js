@@ -12,13 +12,14 @@ let num_general_suggestions = 10;
 $(document).ready(function () {
     chrome.storage.sync.get(function (items) {
         console.log(items);
-        for (key in items) {
+        let map_select = $('select#map');
+        for (let key in items) {
             let key_type = key.split(':')[0];
             //console.log(key+" is a "+key_type);
             if (key_type === 'map') {
                 let map_name = items[key].map;
                 map_data[map_name] = items[key].heroes;
-                $('select#map').append("<OPTION>" + map_name + "</OPTION>");
+                map_select.append("<OPTION>" + map_name + "</OPTION>");
             } else if (key_type === 'player') {
                 let player = items[key];
                 player_data[player.ID] = player.heroes;
@@ -39,7 +40,7 @@ $(document).ready(function () {
         }
 
         // Set current map whenever map is changed.
-        $('select#map').change(function () {
+        map_select.change(function () {
             current_map = $(this).val();
         });
 
@@ -118,9 +119,9 @@ function update_players_suggestions() {
 function get_player_suggestions(player_id) {
     let possible_heroes = [];
     for (let i = 0, len = window.available_heroes.length; i < len; i++) {
-        let hero = window.available_heroes[i]
-        let m = map_data[current_map][hero]
-        let p = player_data[player_id][hero]
+        let hero = window.available_heroes[i];
+        let m = map_data[current_map][hero];
+        let p = player_data[player_id][hero];
         if (m && p && p['Win Percent']) {
             let player_confidence = ( p['Win Percent'] * p['Games Played'] + 1 ) / (p['Games Played'] + 2);
             let score = Math.pow(m['Win Percent'] * player_confidence, 1 / 2) * 10000;
