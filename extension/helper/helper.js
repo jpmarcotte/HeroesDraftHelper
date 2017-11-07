@@ -2,6 +2,8 @@ let map_data = {};
 let player_data = {};
 let current_map = null;
 let hero_names = [];
+let hero_duos = {};
+let hero_matchups = {};
 let hero_sub_roles = {};
 let sub_role_classes = {};
 let available_heroes = [];
@@ -18,7 +20,6 @@ $(document).ready(function () {
         let map_select = $('select#map');
         for (let key in items) {
             let key_type = key.split(':')[0];
-            //console.log(key+" is a "+key_type);
             if (key_type === 'map') {
                 let map_name = items[key].map;
                 if (Object.keys(items[key].heroes).length) {
@@ -40,6 +41,14 @@ $(document).ready(function () {
                 hero_names.sort();
                 for (let i = 0, len = hero_names.length; i < len; i++) {
                     $('select.hero_select').append("<OPTION>" + hero_names[i] + "</OPTION>");
+                }
+            } else if (key_type === 'hero_details') {
+                let hero_name = items[key].hero;
+                if (Object.keys(items[key].duos).length) {
+                    hero_duos[hero_name] = items[key].duos;
+                }
+                if (Object.keys(items[key].matchups).length) {
+                    hero_matchups[hero_name] = items[key].matchups;
                 }
             }
         }
@@ -137,14 +146,19 @@ function update_players_suggestions() {
     });
 }
 
+function confidence(win_percent, games_played) {
+    return ( win_percent * games_played + 1 ) / ( games_played + 2 );
+}
+
 function get_player_suggestions(player_id) {
     let possible_heroes = [];
     for (let i = 0, len = available_heroes.length; i < len; i++) {
         let hero = available_heroes[i];
         let m = map_data[current_map][hero];
         let p = player_data[player_id][hero];
+        let a = get_ally_score(hero);
         if (m && p && p['Win Percent']) {
-            let player_confidence = ( p['Win Percent'] * p['Games Played'] + 1 ) / (p['Games Played'] + 2);
+            let player_confidence = confidence(p['Win Percent'], p['Games Played']);
             let score = Math.pow(m['Win Percent'] * player_confidence, 1 / 2) * 10000;
             let factors = [];
             if (p['Win Percent'] > significant_factor_threshold) {
@@ -216,7 +230,7 @@ function get_available_heroes() {
 
 function get_team_heroes(class_name) {
     let team_heroes = [];
-    $(`select.hero_select.${class_name}`).each(function() {
+    $(`select.hero_select.${class_name}`).each(function () {
         let hero_name = $(this).val();
         if (hero_name) {
             team_heroes.push(hero_name);
@@ -224,4 +238,10 @@ function get_team_heroes(class_name) {
     });
 
     return team_heroes;
+}
+
+function get_ally_score(hero_name) {
+    let ally_scores = [];
+    for (let ally_hero of ally_heroes) {
+    }
 }
