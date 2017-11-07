@@ -18,8 +18,10 @@ $(document).ready(function () {
             //console.log(key+" is a "+key_type);
             if (key_type === 'map') {
                 let map_name = items[key].map;
-                map_data[map_name] = items[key].heroes;
-                map_select.append(`<OPTION>${map_name}</OPTION>`);
+                if (Object.keys(items[key].heroes).length) {
+                    map_data[map_name] = items[key].heroes;
+                    map_select.append(`<OPTION>${map_name}</OPTION>`);
+                }
             } else if (key_type === 'player') {
                 let player = items[key];
                 player_data[player.ID] = player.heroes;
