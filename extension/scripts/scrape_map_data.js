@@ -1,9 +1,9 @@
 wait_for_state = function(test, execute, interval = 100) {
 	if (test()) { execute(); }
 	else { setTimeout(function(){ wait_for_state(test, execute, interval); }, interval); }
-}
+};
 
-page_ready = function() { return !$('div.RadAjax').is(':visible'); }
+page_ready = function() { return !$('div.RadAjax').is(':visible'); };
 
 set_defaults = function() {
 	window.curr_map_loading		= -1;	// Currently working on map
@@ -12,7 +12,7 @@ set_defaults = function() {
 	window.last_map_parsed		= -1;	// Last map parsed
 	window.total_maps_parsed	= 0;	// Total maps parsed
 	window.done_processing		= false;
-}
+};
 
 load_map = function(idx) {
 	window.curr_map_loading = idx;
@@ -41,7 +41,11 @@ load_map = function(idx) {
 		window.curr_map_loading = -1;
 		parse_map(idx);
 	}, 1000);
-}
+};
+
+parse_int = function(string) {
+    return parseInt(string.replace(/\D/g, ''), 10);
+};
 
 parse_map = function(idx) {
 	window.curr_map_parsing = idx;
@@ -68,7 +72,7 @@ parse_map = function(idx) {
 		for (field in hero_keys) {
 			value = $(this).find('td').eq(hero_keys[field]).text().trim()
 			if (field == 'Hero') { hero_name = value; }
-			else if (field == 'Games Banned' || field == 'Games Played') { hero_data[field] = parseInt(value,10); }
+			else if (field == 'Games Banned' || field == 'Games Played') { hero_data[field] = parse_int(value,10); }
 			else if (field == 'Win Percent') {
 				// toFixed corrects computer rounding errors, but returns a string, so is parsed again.
 				hero_data[field] = parseFloat((parseFloat(value)/100).toFixed(3));
@@ -88,7 +92,7 @@ parse_map = function(idx) {
 	window.total_maps_parsed = window.total_maps_parsed + 1;
 	window.last_map_parsed = idx;
 	process_maps();
-}
+};
 
 // Main recursive processing function
 process_maps = function() {
@@ -110,7 +114,7 @@ process_maps = function() {
 		// All done!
 		window.done_processing = true;
 	}
-}
+};
 
 store_map_data = function() {
 	set_defaults();
@@ -151,4 +155,4 @@ store_map_data = function() {
 			set_defaults();
 		},
 		1000);
-}
+};

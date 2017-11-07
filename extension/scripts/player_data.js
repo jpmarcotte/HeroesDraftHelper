@@ -3,7 +3,7 @@
 wait_for_state = function(test, execute, interval = 100) {
 	if (test()) { execute(); }
 	else { setTimeout(function(){ wait_for_state(test, execute, interval); }, interval); }
-}
+};
 
 var urlParams;
 (window.onpopstate = function () {
@@ -18,6 +18,10 @@ var urlParams;
 	   urlParams[decode(match[1])] = decode(match[2]);
 	}
 })();
+
+parse_int = function(string) {
+    return parseInt(string.replace(/\D/g, ''), 10);
+};
 
 var profile_parsed = false;
 var store_player_data = function() {
@@ -41,7 +45,7 @@ var store_player_data = function() {
 			$('#HDH_StorePlayerDataButton').removeClass().addClass('btn btn-success');
 		},
 		1000);
-}
+};
 
 var collect_player_data = function() {
 	var map_hero_table = $('table#ctl00_MainContent_RadGridCharacterStatistics_ctl00');
@@ -57,7 +61,7 @@ var collect_player_data = function() {
 		for (field in hero_keys) {
 			value = $(this).find('td').eq(hero_keys[field]).text().trim()
 			if (field == 'Hero') { hero_name = value; }
-			else if (field == 'Games Played') { hero_data[field] = parseInt(value,10); }
+			else if (field == 'Games Played') { hero_data[field] = parse_int(value); }
 			else if (field == 'Win Percent') {
 				// toFixed corrects computer rounding errors, but returns a string, so is parsed again.
 				hero_data[field] = parseFloat((parseFloat(value)/100).toFixed(3));
@@ -78,7 +82,4 @@ var collect_player_data = function() {
 
 	window.profile_parsed = true;
 	return player_data;
-}
-
-
-
+};

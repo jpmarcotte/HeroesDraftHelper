@@ -9,7 +9,11 @@ process_map_rows = function() {
 		$(row).find('button').click();
 		wait_for_state(page_ready, process_map_rows, 100);
 	} else { window.maps_opened = true; }
-}
+};
+
+parse_int = function(string) {
+    return parseInt(string.replace(/\D/g, ''), 10);
+};
 
 parse_maps = function() {
 	map_keys = {};
@@ -41,7 +45,7 @@ parse_maps = function() {
 			for (field in hero_keys) {
 				value = $(this).find('td').eq(hero_keys[field]).text().trim()
 				if (field == 'Hero') { hero_name = value; }
-				else if (field == 'Games Banned' || field == 'Games Played') { hero_data[field] = parseInt(value,10); }
+				else if (field == 'Games Banned' || field == 'Games Played') { hero_data[field] = parse_int(value); }
 				else if (field == 'Popularity' || field == 'Win Percent') { hero_data[field] = (parseFloat(value)/100).toFixed(3); }
 			}
 			heroes_data[hero_name] = hero_data;
@@ -51,7 +55,7 @@ parse_maps = function() {
 
 	}
 	console.log(JSON.stringify(map_data));
-}
+};
 
 console.log("Selecting Hero League");
 $("div#ctl00_MainContent_DropDownGameMode_DropDown li:contains('Hero League')").click();
