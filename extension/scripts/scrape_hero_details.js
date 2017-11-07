@@ -7,11 +7,15 @@ wait_for_state = function (test, execute, interval = 100) {
             wait_for_state(test, execute, interval);
         }, interval);
     }
-}
+};
+
+parse_int = function(string) {
+    return parseInt(string.replace(/\D/g), 10);
+};
 
 page_ready = function () {
     return !$('div.RadAjax').is(':visible');
-}
+};
 
 set_defaults = function () {
     window.curr_hero_loading = -1;	// Currently working on hero
@@ -20,7 +24,7 @@ set_defaults = function () {
     window.last_hero_parsed = -1;	// Last hero parsed
     window.total_heroes_parsed = 0;	// Total heroes parsed
     window.done_processing = false;
-}
+};
 
 load_hero = function (index) {
     window.curr_hero_loading = index;
@@ -37,7 +41,7 @@ load_hero = function (index) {
         window.curr_hero_loading = -1;
         parse_hero(index);
     }, 1000);
-}
+};
 
 parse_hero = function (index) {
     window.curr_hero_parsing = index;
@@ -67,7 +71,7 @@ parse_hero = function (index) {
             if (field === 'Opposing Hero') {
                 matchup_name = value;
             } else if (field === 'Games Played Against') {
-                matchup_data[field] = parseInt(value, 10);
+                matchup_data[field] = parse_int(value);
             } else if (field === 'Win Percent Against') {
                 // toFixed corrects computer rounding errors, but returns a string, so is parsed again.
                 matchup_data[field] = parseFloat((parseFloat(value) / 100).toFixed(3));
@@ -94,7 +98,7 @@ parse_hero = function (index) {
             if (field === 'Team Hero') {
                 duo_name = value;
             } else if (field === 'Games Played With') {
-                duo_data[field] = parseInt(value, 10);
+                duo_data[field] = parse_int(value);
             } else if (field === 'Win Percent With') {
                 // toFixed corrects computer rounding errors, but returns a string, so is parsed again.
                 duo_data[field] = parseFloat((parseFloat(value) / 100).toFixed(3));
@@ -118,7 +122,7 @@ parse_hero = function (index) {
     window.total_heroes_parsed = window.total_heroes_parsed + 1;
     window.last_hero_parsed = index;
     process_heroes();
-}
+};
 
 // Main recursive processing function
 process_heroes = function () {
@@ -140,7 +144,7 @@ process_heroes = function () {
         // All done!
         window.done_processing = true;
     }
-}
+};
 
 store_hero_details = function () {
     set_defaults();
@@ -183,4 +187,4 @@ store_hero_details = function () {
             set_defaults();
         },
         1000);
-}
+};
