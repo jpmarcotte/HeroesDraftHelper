@@ -9,7 +9,7 @@ $('#h1Title').append(`
 );
 
 document.addEventListener('Get_Player_Data', function(e) {
-	chrome.storage.sync.get(
+	chrome.storage.local.get(
 		'player:'+e.detail.ID,
 		function(items) {
 			console.log(items);
@@ -21,5 +21,5 @@ document.addEventListener('Store_Player_Data', function(e) {
 	console.log("Storing Data for "+e.detail.name);
 	data = {};
 	data["player:"+e.detail.ID] = e.detail;
-	chrome.storage.sync.set(data);
+	chrome.storage.local.set(data);
 });

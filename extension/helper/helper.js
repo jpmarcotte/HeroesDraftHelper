@@ -10,7 +10,7 @@ let num_player_suggestions = 8;
 let num_general_suggestions = 10;
 
 $(document).ready(function () {
-    chrome.storage.sync.get(function (items) {
+    chrome.storage.local.get(function (items) {
         console.log(items);
         let map_select = $('select#map');
         for (let key in items) {
@@ -19,11 +19,11 @@ $(document).ready(function () {
             if (key_type === 'map') {
                 let map_name = items[key].map;
                 map_data[map_name] = items[key].heroes;
-                map_select.append("<OPTION>" + map_name + "</OPTION>");
+                map_select.append(`<OPTION>${map_name}</OPTION>`);
             } else if (key_type === 'player') {
                 let player = items[key];
                 player_data[player.ID] = player.heroes;
-                $('select.player_select').append("<OPTION value='" + player.ID + "'>" + player.name + "</OPTION>");
+                $('select.player_select').append(`<OPTION value='${player.ID}'>${player.name}</OPTION>`);
             } else if (key_type === 'hero_sub_roles') {
                 hero_sub_roles = items[key];
                 for (let hero in hero_sub_roles) {
@@ -109,7 +109,7 @@ function update_players_suggestions() {
         if (player_id) {
             let player_suggestions = get_player_suggestions(player_id);
             let display = "";
-            for (let i = 0; i < num_player_suggestions; i++) {
+            for (let i = 0, num = Math.min(num_player_suggestions, player_suggestions.length); i < num; i++) {
                 let hero = player_suggestions[i];
                 let name = hero['hero'];
                 let score = hero['score'];

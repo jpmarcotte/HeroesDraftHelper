@@ -35,6 +35,10 @@
 		{
 			"matches": ["*://*.hotslogs.com/Info/HeroSubRole"],
 			"js": ["jquery-3.1.1.min.js", "storage.js", "roles.js"]
+		},
+		{
+			"matches": ["*://*.hotslogs.com/Sitewide/HeroDetails*"],
+			"js": ["jquery-3.1.1.min.js", "storage.js", "hero_details.js"]
 		}
 	],
 
