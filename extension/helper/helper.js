@@ -240,8 +240,22 @@ function get_team_heroes(class_name) {
     return team_heroes;
 }
 
-function get_ally_score(hero_name) {
-    let ally_scores = [];
-    for (let ally_hero of ally_heroes) {
+function get_duo_scores(hero_name, team_heroes) {
+    let duo_scores = {};
+    for (let hero of team_heroes) {
+        let h = hero_duos[hero_name][hero];
+        duo_scores[hero] = confidence(h['Win Percent With'], h['Games Played With']);
     }
+
+    return duo_scores;
+}
+
+function get_matchup_scores(hero_name, team_heroes) {
+    let matchup_scores = {};
+    for (let hero of team_heroes) {
+        let h = hero_matchups[hero_name][hero];
+        matchup_scores[hero] = confidence(h['Win Percent Against'], h['Games Played Against']);
+    }
+
+    return matchup_scores;
 }
