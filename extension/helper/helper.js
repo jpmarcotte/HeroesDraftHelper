@@ -5,6 +5,8 @@ let hero_names = [];
 let hero_sub_roles = {};
 let sub_role_classes = {};
 let available_heroes = [];
+let ally_heroes = [];
+let opponent_heroes = [];
 let num_ban_suggestions = 10;
 let num_player_suggestions = 8;
 let num_general_suggestions = 10;
@@ -57,6 +59,8 @@ $(document).ready(function () {
 function update_suggestions() {
     if (current_map) {
         available_heroes = get_available_heroes();
+        ally_heroes = get_team_heroes('ally');
+        opponent_heroes = get_team_heroes('opponent');
 
         // Get ban suggestions
         update_ban_suggestions();
@@ -210,3 +214,14 @@ function get_available_heroes() {
     return Object.keys(heroes);
 }
 
+function get_team_heroes(class_name) {
+    let team_heroes = [];
+    $(`select.hero_select.${class_name}`).each(function() {
+        let hero_name = $(this).val();
+        if (hero_name) {
+            team_heroes.push(hero_name);
+        }
+    });
+
+    return team_heroes;
+}
