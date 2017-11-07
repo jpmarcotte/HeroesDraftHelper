@@ -1,14 +1,13 @@
-var map_data = {};
-var form = this;
-var player_data = {};
-var current_map = null;
-var hero_names = [];
-var hero_sub_roles = {};
-var sub_role_classes = {};
-var available_heroes = [];
-var num_ban_suggestions = 10;
-var num_player_suggestions = 8;
-var num_general_suggestions = 10;
+let map_data = {};
+let player_data = {};
+let current_map = null;
+let hero_names = [];
+let hero_sub_roles = {};
+let sub_role_classes = {};
+let available_heroes = [];
+let num_ban_suggestions = 10;
+let num_player_suggestions = 8;
+let num_general_suggestions = 10;
 
 $(document).ready(function() {
 	chrome.storage.sync.get(function(items) {
@@ -33,7 +32,7 @@ $(document).ready(function() {
 
 				hero_names = Object.keys(hero_sub_roles);
 				hero_names.sort();
-				for (var i = 0, len = hero_names.length; i < len; i++) {
+				for (let i = 0, len = hero_names.length; i < len; i++) {
 					$('select.hero_select').append("<OPTION>"+hero_names[i]+"</OPTION>");
 				}
 			}
@@ -73,7 +72,7 @@ function hero_display(name, score) {
 function update_ban_suggestions() {
 	ban_suggestions = get_ban_suggestions();
 	display = "";
-	for (var i = 0; i < num_ban_suggestions; i++) {
+	for (let i = 0; i < num_ban_suggestions; i++) {
 		hero = ban_suggestions[i];
 		name = hero['hero'];
 		score = hero['score'];
@@ -84,7 +83,7 @@ function update_ban_suggestions() {
 
 function get_ban_suggestions() {
 	possible_bans = [];
-	for (var i=0, len=window.available_heroes.length; i < len; i++) {
+	for (let i=0, len=window.available_heroes.length; i < len; i++) {
 		hero = window.available_heroes[i];
 		if (m = map_data[current_map][hero]) {
 			score = ( m['Games Banned'] + m['Games Played'] ) * m['Win Percent'] ;
@@ -103,7 +102,7 @@ function update_players_suggestions() {
 		if (player_id = $(this).val()) {
 			player_suggestions = get_player_suggestions(player_id);
 			display = "";
-			for (var i = 0; i < num_player_suggestions; i++) {
+			for (let i = 0; i < num_player_suggestions; i++) {
 				hero = player_suggestions[i];
 				name = hero['hero'];
 				score = hero['score'];
@@ -116,7 +115,7 @@ function update_players_suggestions() {
 
 function get_player_suggestions(player_id) {
 	possible_heroes = [];
-	for (var i=0, len=window.available_heroes.length; i < len; i++) {
+	for (let i=0, len=window.available_heroes.length; i < len; i++) {
 		hero = window.available_heroes[i]
 		m = map_data[current_map][hero]
 		p = player_data[player_id][hero]
@@ -136,7 +135,7 @@ function get_player_suggestions(player_id) {
 function update_general_suggestions() {
 	general_suggestions = get_general_suggestions();
 	display = "";
-	for (var i = 0; i < num_general_suggestions; i++) {
+	for (let i = 0; i < num_general_suggestions; i++) {
 		hero = general_suggestions[i];
 		name = hero['hero'];
 		score = hero['score'];
@@ -147,7 +146,7 @@ function update_general_suggestions() {
 
 function get_general_suggestions() {
 	possible_heroes = [];
-	for (var i=0, len=window.available_heroes.length; i < len; i++) {
+	for (let i=0, len=window.available_heroes.length; i < len; i++) {
 		hero = window.available_heroes[i];
 		if (m = map_data[current_map][hero]) {
 			score = m['Win Percent'] * 1000;
@@ -164,7 +163,7 @@ function get_general_suggestions() {
 
 function get_available_heroes() {
 	heroes = {};
-	for (var i = 0, len = hero_names.length; i < len; i++) {
+	for (let i = 0, len = hero_names.length; i < len; i++) {
 		heroes[hero_names[i]] = null;
 	}
 
