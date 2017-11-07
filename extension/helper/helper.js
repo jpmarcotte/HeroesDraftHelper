@@ -8,6 +8,7 @@ let available_heroes = [];
 let num_ban_suggestions = 10;
 let num_player_suggestions = 8;
 let num_general_suggestions = 10;
+let significant_factor_threshold = .5;
 
 $(document).ready(function () {
     chrome.storage.local.get(function (items) {
@@ -68,9 +69,13 @@ function update_suggestions() {
     }
 }
 
-function hero_display(name, score, data) {
+function hero_display(name, score, factors) {
+    let factor_string = '';
+    if (factors.length) {
+        factor_string = '; ' + factors.join(', ');
+    }
     return `
-<SPAN class="hero ${sub_role_classes[hero_sub_roles[name]]}" title="${hero_sub_roles[name]}">
+<SPAN class="hero ${sub_role_classes[hero_sub_roles[name]]}" title="${hero_sub_roles[name]}${factor_string}">
     ${name} (${score})
 </SPAN>
 `;
@@ -83,7 +88,8 @@ function update_ban_suggestions() {
         let hero = ban_suggestions[i];
         let name = hero['hero'];
         let score = hero['score'];
-        display += hero_display(name, score.toFixed(0));
+        let factors = hero['factors'];
+        display += hero_display(name, score.toFixed(0), factors);
     }
     $('#suggested_bans').html(display);
 }
@@ -95,7 +101,11 @@ function get_ban_suggestions() {
         let m = map_data[current_map][hero];
         if (m) {
             let score = ( m['Games Banned'] + m['Games Played'] ) * m['Win Percent'];
-            possible_bans.push({'hero': hero, 'score': score});
+            let factors = [];
+            if (m['Win Percent'] > significant_factor_threshold) {
+                factors.push(`WR: ${Math.round(m['Win Percent'] * 100)}%`);
+            }
+            possible_bans.push({'hero': hero, 'score': score, 'factors': factors});
         }
     }
     possible_bans.sort(function (a, b) {
@@ -115,7 +125,8 @@ function update_players_suggestions() {
                 let hero = player_suggestions[i];
                 let name = hero['hero'];
                 let score = hero['score'];
-                display += hero_display(name, score.toFixed(0));
+                let factors = hero['factors'];
+                display += hero_display(name, score.toFixed(0), factors);
             }
             $(this).closest('tr').find('.hero_suggestions').html(display);
         }
@@ -131,7 +142,14 @@ function get_player_suggestions(player_id) {
         if (m && p && p['Win Percent']) {
             let player_confidence = ( p['Win Percent'] * p['Games Played'] + 1 ) / (p['Games Played'] + 2);
             let score = Math.pow(m['Win Percent'] * player_confidence, 1 / 2) * 10000;
-            possible_heroes.push({'hero': hero, 'score': score});
+            let factors = [];
+            if (p['Win Percent'] > significant_factor_threshold) {
+                factors.push(`Player: ${Math.round(p['Win Percent'] * 100)}%`);
+            }
+            if (m['Win Percent'] > significant_factor_threshold) {
+                factors.push(`Map: ${Math.round(p['Win Percent'] * 100)}%`);
+            }
+            possible_heroes.push({'hero': hero, 'score': score, 'factors': factors});
         }
     }
     possible_heroes.sort(function (a, b) {
@@ -148,7 +166,8 @@ function update_general_suggestions() {
         let hero = general_suggestions[i];
         let name = hero['hero'];
         let score = hero['score'];
-        display += hero_display(name, score.toFixed(0));
+        let factors = hero['factors'];
+        display += hero_display(name, score.toFixed(0), factors);
     }
     $('#general_suggestions').html(display);
 }
@@ -160,7 +179,11 @@ function get_general_suggestions() {
         let m = map_data[current_map][hero];
         if (m) {
             let score = m['Win Percent'] * 1000;
-            possible_heroes.push({'hero': hero, 'score': score});
+            let factors = [];
+            if (m['Win Percent'] > significant_factor_threshold) {
+                factors.push(`WR: ${Math.round(m['Win Percent'] * 100)}%`);
+            }
+            possible_heroes.push({'hero': hero, 'score': score, 'factors': factors});
         }
     }
     possible_heroes.sort(function (a, b) {
