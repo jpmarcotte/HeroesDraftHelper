@@ -15,15 +15,15 @@ $(document).ready(function () {
         for (key in items) {
             let key_type = key.split(':')[0];
             //console.log(key+" is a "+key_type);
-            if (key_type == 'map') {
+            if (key_type === 'map') {
                 let map_name = items[key].map;
                 map_data[map_name] = items[key].heroes;
                 $('select#map').append("<OPTION>" + map_name + "</OPTION>");
-            } else if (key_type == 'player') {
+            } else if (key_type === 'player') {
                 let player = items[key];
                 player_data[player.ID] = player.heroes;
                 $('select.player_select').append("<OPTION value='" + player.ID + "'>" + player.name + "</OPTION>");
-            } else if (key_type == 'hero_sub_roles') {
+            } else if (key_type === 'hero_sub_roles') {
                 hero_sub_roles = items[key];
                 for (let hero in hero_sub_roles) {
                     let role = hero_sub_roles[hero];
