@@ -94,6 +94,10 @@ function hero_display(name, score, factors) {
 `;
 }
 
+function confidence(win_percent, games_played) {
+    return ( win_percent * games_played + 1 ) / ( games_played + 2 );
+}
+
 function update_ban_suggestions() {
     let ban_suggestions = get_ban_suggestions();
     let display = "";
@@ -146,26 +150,41 @@ function update_players_suggestions() {
     });
 }
 
-function confidence(win_percent, games_played) {
-    return ( win_percent * games_played + 1 ) / ( games_played + 2 );
-}
-
 function get_player_suggestions(player_id) {
     let possible_heroes = [];
     for (let i = 0, len = available_heroes.length; i < len; i++) {
         let hero = available_heroes[i];
         let m = map_data[current_map][hero];
         let p = player_data[player_id][hero];
-        let a = get_ally_score(hero);
+        let duos = get_duo_scores(hero, ally_heroes);
+        let matchups = get_matchup_scores(hero, opponent_heroes);
         if (m && p && p['Win Percent']) {
             let player_confidence = confidence(p['Win Percent'], p['Games Played']);
-            let score = Math.pow(m['Win Percent'] * player_confidence, 1 / 2) * 10000;
+            let sources = [m['Win Percent'], player_confidence];
+            if (Object.keys(duos).length)  {
+                sources.push(product_average(Object.values(duos)));
+            }
+            if (Object.keys(matchups).length)  {
+                sources.push(product_average(Object.values(matchups)));
+            }
+            let score = 10000 * product_average(sources);
+
             let factors = [];
             if (p['Win Percent'] > significant_factor_threshold) {
                 factors.push(`Player: ${Math.round(p['Win Percent'] * 100)}%`);
             }
             if (m['Win Percent'] > significant_factor_threshold) {
                 factors.push(`Map: ${Math.round(p['Win Percent'] * 100)}%`);
+            }
+            for (let duo in duos) {
+                if (duos[duo] > significant_factor_threshold) {
+                    factors.push(`w/ ${duo}: ${Math.round(duos[duo] * 100)}`);
+                }
+            }
+            for (let matchup in matchups) {
+                if (matchups[matchup] > significant_factor_threshold) {
+                    factors.push(`v. ${matchup}: ${Math.round(matchups[matchup] * 100)}`);
+                }
             }
             possible_heroes.push({'hero': hero, 'score': score, 'factors': factors});
         }
@@ -244,7 +263,9 @@ function get_duo_scores(hero_name, team_heroes) {
     let duo_scores = {};
     for (let hero of team_heroes) {
         let h = hero_duos[hero_name][hero];
-        duo_scores[hero] = confidence(h['Win Percent With'], h['Games Played With']);
+        if (h) {
+            duo_scores[hero] = confidence(h['Win Percent With'], h['Games Played With']);
+        }
     }
 
     return duo_scores;
@@ -254,8 +275,15 @@ function get_matchup_scores(hero_name, team_heroes) {
     let matchup_scores = {};
     for (let hero of team_heroes) {
         let h = hero_matchups[hero_name][hero];
-        matchup_scores[hero] = confidence(h['Win Percent Against'], h['Games Played Against']);
+        if (h) {
+            matchup_scores[hero] = confidence(h['Win Percent Against'], h['Games Played Against']);
+        }
     }
 
     return matchup_scores;
+}
+
+function product_average(array) {
+    let product = array.reduce((product, value) => product * value, 1);
+    return Math.pow(product, 1 / array.length);
 }
