@@ -141,7 +141,7 @@ function update_players_suggestions() {
             let display = "";
             let selected_hero = hero_select.val();
             if (selected_hero) {
-                let hero = get_player_hero_stats(player_id, selected_hero, true);
+                let hero = get_player_hero_stats(player_id, selected_hero);
                 let name = hero['hero'];
                 let score = hero['score'];
                 let factors = hero['factors'];
@@ -161,7 +161,7 @@ function update_players_suggestions() {
     });
 }
 
-function get_player_hero_stats(player_id, hero, allow_unplayed = false) {
+function get_player_hero_stats(player_id, hero) {
     let m = map_data[current_map][hero];
     let p = player_data[player_id][hero];
     let duos = get_duo_scores(hero, ally_heroes);
@@ -176,9 +176,6 @@ function get_player_hero_stats(player_id, hero, allow_unplayed = false) {
             factors.push(`Player: ${Math.round(p['Win Percent'] * 100)}%`);
         }
     } else {
-        if (!allow_unplayed) {
-            return {'hero': hero, 'score': 0, 'factors': []};
-        }
         sources.push(0);
         factors.push('NO PLAYER DATA!');
     }
