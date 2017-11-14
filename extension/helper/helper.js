@@ -136,64 +136,97 @@ function update_players_suggestions() {
     $('select.player_select').each(function () {
         let player_id = $(this).val();
         if (player_id) {
-            let player_suggestions = get_player_suggestions(player_id);
+            let row = $(this).closest('tr');
+            let hero_select = row.find('.hero_select').eq(0);
             let display = "";
-            for (let i = 0, num = Math.min(num_player_suggestions, player_suggestions.length); i < num; i++) {
-                let hero = player_suggestions[i];
+            let selected_hero = hero_select.val();
+            if (selected_hero) {
+                let hero = get_player_hero_stats(player_id, selected_hero, true);
                 let name = hero['hero'];
                 let score = hero['score'];
                 let factors = hero['factors'];
-                display += hero_display(name, score.toFixed(0), factors);
+                display = hero_display(name, score.toFixed(0), factors);
+            } else {
+                let player_suggestions = get_player_suggestions(player_id);
+                for (let i = 0, num = Math.min(num_player_suggestions, player_suggestions.length); i < num; i++) {
+                    let hero = player_suggestions[i];
+                    let name = hero['hero'];
+                    let score = hero['score'];
+                    let factors = hero['factors'];
+                    display += hero_display(name, score.toFixed(0), factors);
+                }
             }
-            $(this).closest('tr').find('.hero_suggestions').html(display);
+            row.find('.hero_suggestions').html(display);
         }
     });
+}
+
+function get_player_hero_stats(player_id, hero, allow_unplayed = false) {
+    let m = map_data[current_map][hero];
+    let p = player_data[player_id][hero];
+    let duos = get_duo_scores(hero, ally_heroes);
+    let matchups = get_matchup_scores(hero, opponent_heroes);
+
+    let sources = [];
+    let factors = [];
+
+    if (p && p['Win Percent'] && p['Games Played']) {
+        sources.push(confidence(p['Win Percent'], p['Games Played']));
+        if (p['Win Percent'] > significant_factor_threshold) {
+            factors.push(`Player: ${Math.round(p['Win Percent'] * 100)}%`);
+        }
+    } else {
+        if (!allow_unplayed) {
+            return {'hero': hero, 'score': 0, 'factors': []};
+        }
+        sources.push(0);
+        factors.push('NO PLAYER DATA!');
+    }
+
+    if (m && m['Win Percent'] && m['Games Played']) {
+        sources.push(confidence(m['Win Percent'], m['Games Played']));
+        if (m['Win Percent'] > significant_factor_threshold) {
+            factors.push(`Map: ${Math.round(m['Win Percent'] * 100)}%`);
+        }
+    }
+
+    if (Object.keys(duos).length) {
+        sources.push(combine_scores(Object.values(duos)));
+        for (let duo in duos) {
+            if (duos[duo] > significant_factor_threshold) {
+                factors.push(`w/ ${duo}: ${Math.round(duos[duo] * 100)}`);
+            }
+        }
+    }
+
+    if (Object.keys(matchups).length) {
+        sources.push(combine_scores(Object.values(matchups)));
+        for (let matchup in matchups) {
+            if (matchups[matchup] > significant_factor_threshold) {
+                factors.push(`v. ${matchup}: ${Math.round(matchups[matchup] * 100)}`);
+            }
+        }
+    }
+
+    let score = 10000 * combine_scores(sources);
+
+    return {'hero': hero, 'score': score, 'factors': factors};
 }
 
 function get_player_suggestions(player_id) {
     let possible_heroes = [];
     for (let i = 0, len = available_heroes.length; i < len; i++) {
         let hero = available_heroes[i];
-        let m = map_data[current_map][hero];
-        let p = player_data[player_id][hero];
-        let duos = get_duo_scores(hero, ally_heroes);
-        let matchups = get_matchup_scores(hero, opponent_heroes);
-        if (m && p && p['Win Percent']) {
-            let player_confidence = confidence(p['Win Percent'], p['Games Played']);
-            let sources = [m['Win Percent'], player_confidence];
-            if (Object.keys(duos).length) {
-                sources.push(product_average(Object.values(duos)));
-            }
-            if (Object.keys(matchups).length) {
-                sources.push(product_average(Object.values(matchups)));
-            }
-            let score = 10000 * product_average(sources);
-
-            let factors = [];
-            if (p['Win Percent'] > significant_factor_threshold) {
-                factors.push(`Player: ${Math.round(p['Win Percent'] * 100)}%`);
-            }
-            if (m['Win Percent'] > significant_factor_threshold) {
-                factors.push(`Map: ${Math.round(m['Win Percent'] * 100)}%`);
-            }
-            for (let duo in duos) {
-                if (duos[duo] > significant_factor_threshold) {
-                    factors.push(`w/ ${duo}: ${Math.round(duos[duo] * 100)}`);
-                }
-            }
-            for (let matchup in matchups) {
-                if (matchups[matchup] > significant_factor_threshold) {
-                    factors.push(`v. ${matchup}: ${Math.round(matchups[matchup] * 100)}`);
-                }
-            }
-            possible_heroes.push({'hero': hero, 'score': score, 'factors': factors});
+        let hero_stats = get_player_hero_stats(player_id, hero);
+        if (hero_stats) {
+            possible_heroes.push(hero_stats);
         }
     }
     possible_heroes.sort(function (a, b) {
-        return a['score'] - b['score'];
+        return b['score'] - a['score'];
     });
 
-    return possible_heroes.reverse();
+    return possible_heroes;
 }
 
 function update_general_suggestions() {
@@ -287,7 +320,16 @@ function get_matchup_scores(hero_name, team_heroes) {
     return matchup_scores;
 }
 
-function product_average(array) {
+function combine_scores(array) {
+    return arithmetic_mean(array);
+}
+
+function geometric_mean(array) {
     let product = array.reduce((product, value) => product * value, 1);
     return Math.pow(product, 1 / array.length);
+}
+
+function arithmetic_mean(array) {
+    let sum = array.reduce((sum, value) => sum + value, 0);
+    return sum / array.length;
 }
