@@ -161,10 +161,10 @@ function get_player_suggestions(player_id) {
         if (m && p && p['Win Percent']) {
             let player_confidence = confidence(p['Win Percent'], p['Games Played']);
             let sources = [m['Win Percent'], player_confidence];
-            if (Object.keys(duos).length)  {
+            if (Object.keys(duos).length) {
                 sources.push(product_average(Object.values(duos)));
             }
-            if (Object.keys(matchups).length)  {
+            if (Object.keys(matchups).length) {
                 sources.push(product_average(Object.values(matchups)));
             }
             let score = 10000 * product_average(sources);
@@ -174,7 +174,7 @@ function get_player_suggestions(player_id) {
                 factors.push(`Player: ${Math.round(p['Win Percent'] * 100)}%`);
             }
             if (m['Win Percent'] > significant_factor_threshold) {
-                factors.push(`Map: ${Math.round(p['Win Percent'] * 100)}%`);
+                factors.push(`Map: ${Math.round(m['Win Percent'] * 100)}%`);
             }
             for (let duo in duos) {
                 if (duos[duo] > significant_factor_threshold) {
@@ -262,9 +262,11 @@ function get_team_heroes(class_name) {
 function get_duo_scores(hero_name, team_heroes) {
     let duo_scores = {};
     for (let hero of team_heroes) {
-        let h = hero_duos[hero_name][hero];
-        if (h) {
-            duo_scores[hero] = confidence(h['Win Percent With'], h['Games Played With']);
+        if (hero_duos[hero_name]) {
+            let h = hero_duos[hero_name][hero];
+            if (h) {
+                duo_scores[hero] = confidence(h['Win Percent With'], h['Games Played With']);
+            }
         }
     }
 
@@ -274,9 +276,11 @@ function get_duo_scores(hero_name, team_heroes) {
 function get_matchup_scores(hero_name, team_heroes) {
     let matchup_scores = {};
     for (let hero of team_heroes) {
-        let h = hero_matchups[hero_name][hero];
-        if (h) {
-            matchup_scores[hero] = confidence(h['Win Percent Against'], h['Games Played Against']);
+        if (hero_matchups[hero_name]) {
+            let h = hero_matchups[hero_name][hero];
+            if (h) {
+                matchup_scores[hero] = confidence(h['Win Percent Against'], h['Games Played Against']);
+            }
         }
     }
 
