@@ -70,10 +70,10 @@ parse_map = function(idx) {
 	hero_rows = $(map_hero_table).find('tbody > tr').each(function(){
 		hero_data = {};
 		for (field in hero_keys) {
-			value = $(this).find('td').eq(hero_keys[field]).text().trim()
-			if (field == 'Hero') { hero_name = value; }
-			else if (field == 'Games Banned' || field == 'Games Played') { hero_data[field] = parse_int(value,10); }
-			else if (field == 'Win Percent') {
+			value = $(this).find('td').eq(hero_keys[field]).text().trim();
+			if (field === 'Hero') { hero_name = value; }
+			else if (field === 'Games Banned' || field === 'Games Played') { hero_data[field] = parse_int(value,10); }
+			else if (field === 'Win Percent' || field === 'Popularity') {
 				// toFixed corrects computer rounding errors, but returns a string, so is parsed again.
 				hero_data[field] = parseFloat((parseFloat(value)/100).toFixed(3));
 			}
