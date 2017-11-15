@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Heroes Draft Helper",
 	"short_name": "HotS Drafter",
-	"version": "0.9.2",
+	"version": "0.9.3",
 	
 	"description": "Heroes of the Storm Draft Helper that utilizes data from HotSLogs.com and takes into account player skill with each Hero.",
 	"icons": {

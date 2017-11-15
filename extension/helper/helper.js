@@ -1,3 +1,11 @@
+// Configuration
+let num_ban_suggestions = 10;
+let num_player_suggestions = 8;
+let num_general_suggestions = 10;
+let significant_factor_threshold = .5;
+let confidence_factor = 1;
+
+// Initialization
 let map_data = {};
 let player_data = {};
 let current_map = null;
@@ -9,10 +17,6 @@ let sub_role_classes = {};
 let available_heroes = [];
 let ally_heroes = [];
 let opponent_heroes = [];
-let num_ban_suggestions = 10;
-let num_player_suggestions = 8;
-let num_general_suggestions = 10;
-let significant_factor_threshold = .5;
 
 $(document).ready(function () {
     chrome.storage.local.get(function (items) {
@@ -95,7 +99,7 @@ function hero_display(name, score, factors) {
 }
 
 function confidence(win_percent, games_played) {
-    return ( win_percent * games_played + 1 ) / ( games_played + 2 );
+    return ( win_percent * games_played + confidence_factor ) / ( games_played + confidence_factor * 2 );
 }
 
 function update_ban_suggestions() {
@@ -162,17 +166,14 @@ function update_players_suggestions() {
 }
 
 function get_player_hero_stats(player_id, hero) {
-    let m = map_data[current_map][hero];
-    let p = player_data[player_id][hero];
-    let duos = get_duo_scores(hero, ally_heroes);
-    let matchups = get_matchup_scores(hero, opponent_heroes);
-
     let sources = [];
     let factors = [];
 
+    let p = player_data[player_id][hero];
     if (p && p['Win Percent'] && p['Games Played']) {
-        sources.push(confidence(p['Win Percent'], p['Games Played']));
-        if (p['Win Percent'] > significant_factor_threshold) {
+        let player_confidence = confidence(p['Win Percent'], p['Games Played']);
+        sources.push(player_confidence);
+        if (player_confidence > significant_factor_threshold) {
             factors.push(`Player: ${Math.round(p['Win Percent'] * 100)}%`);
         }
     } else {
@@ -180,13 +181,16 @@ function get_player_hero_stats(player_id, hero) {
         factors.push('NO PLAYER DATA!');
     }
 
+    let m = map_data[current_map][hero];
     if (m && m['Win Percent'] && m['Games Played']) {
-        sources.push(confidence(m['Win Percent'], m['Games Played']));
-        if (m['Win Percent'] > significant_factor_threshold) {
+        let map_confidence = confidence(m['Win Percent'], m['Games Played']);
+        sources.push(map_confidence);
+        if (map_confidence > significant_factor_threshold) {
             factors.push(`Map: ${Math.round(m['Win Percent'] * 100)}%`);
         }
     }
 
+    let duos = get_duo_scores(hero, ally_heroes);
     if (Object.keys(duos).length) {
         sources.push(combine_scores(Object.values(duos)));
         for (let duo in duos) {
@@ -196,6 +200,7 @@ function get_player_hero_stats(player_id, hero) {
         }
     }
 
+    let matchups = get_matchup_scores(hero, opponent_heroes);
     if (Object.keys(matchups).length) {
         sources.push(combine_scores(Object.values(matchups)));
         for (let matchup in matchups) {
