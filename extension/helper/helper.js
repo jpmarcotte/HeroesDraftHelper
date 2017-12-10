@@ -118,22 +118,54 @@ function update_ban_suggestions() {
 function get_ban_suggestions() {
     let possible_bans = [];
     for (let i = 0, len = available_heroes.length; i < len; i++) {
+        let sources = [];
+        let factors = [];
+
         let hero = available_heroes[i];
         let m = map_data[current_map][hero];
-        if (m) {
-            let score = ( m['Games Banned'] + m['Games Played'] ) * m['Win Percent'];
-            let factors = [];
-            if (m['Win Percent'] > significant_factor_threshold) {
-                factors.push(`WR: ${Math.round(m['Win Percent'] * 100)}%`);
+        if (m && m['Win Percent'] && m['Games Played'] && m['Popularity']) {
+            let map_confidence = confidence(m['Win Percent'], m['Games Played']);
+            sources.push(map_confidence);
+            if (confidence > significant_factor_threshold) {
+                factors.push(`WR: ${Math.round(map_confidence * 100)}%`);
             }
-            possible_bans.push({'hero': hero, 'score': score, 'factors': factors});
+
+            sources.push(m['Popularity']);
+            if (m['Popularity'] > significant_factor_threshold) {
+                factors.push(`Popularity: ${Math.round(m['Popularity'] * 100)}%`);
+            }
         }
+
+        let duos = get_duo_scores(hero, opponent_heroes);
+        if (Object.keys(duos).length) {
+            sources.push(combine_scores(Object.values(duos)));
+            for (let duo in duos) {
+                if (duos[duo] > significant_factor_threshold) {
+                    factors.push(`w/ ${duo}: ${Math.round(duos[duo] * 100)}%`);
+                }
+            }
+        }
+
+        let matchups = get_matchup_scores(hero, ally_heroes);
+        if (Object.keys(matchups).length) {
+            sources.push(combine_scores(Object.values(matchups)));
+            for (let matchup in matchups) {
+                if (matchups[matchup] > significant_factor_threshold) {
+                    factors.push(`v. ${matchup}: ${Math.round(matchups[matchup] * 100)}%`);
+                }
+            }
+        }
+
+        let score = 10000 * combine_scores(sources);
+
+        possible_bans.push({'hero': hero, 'score': score, 'factors': factors});
     }
+
     possible_bans.sort(function (a, b) {
-        return a['score'] - b['score'];
+        return b['score'] - a['score'];
     });
 
-    return possible_bans.reverse();
+    return possible_bans;
 }
 
 function update_players_suggestions() {
@@ -195,7 +227,7 @@ function get_player_hero_stats(player_id, hero) {
         sources.push(combine_scores(Object.values(duos)));
         for (let duo in duos) {
             if (duos[duo] > significant_factor_threshold) {
-                factors.push(`w/ ${duo}: ${Math.round(duos[duo] * 100)}`);
+                factors.push(`w/ ${duo}: ${Math.round(duos[duo] * 100)}%`);
             }
         }
     }
@@ -205,7 +237,7 @@ function get_player_hero_stats(player_id, hero) {
         sources.push(combine_scores(Object.values(matchups)));
         for (let matchup in matchups) {
             if (matchups[matchup] > significant_factor_threshold) {
-                factors.push(`v. ${matchup}: ${Math.round(matchups[matchup] * 100)}`);
+                factors.push(`v. ${matchup}: ${Math.round(matchups[matchup] * 100)}%`);
             }
         }
     }
@@ -259,10 +291,10 @@ function get_general_suggestions() {
         }
     }
     possible_heroes.sort(function (a, b) {
-        return a['score'] - b['score'];
+        return b['score'] - a['score'];
     });
 
-    return possible_heroes.reverse();
+    return possible_heroes;
 }
 
 
