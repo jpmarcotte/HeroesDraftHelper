@@ -1,9 +1,10 @@
 // Configuration
-let num_ban_suggestions = 10;
-let num_player_suggestions = 8;
-let num_general_suggestions = 10;
-let significant_factor_threshold = .5;
-let confidence_factor = 1;
+const score_multiplier = 100;
+const num_ban_suggestions = 11;
+const num_player_suggestions = 13;
+const num_general_suggestions = 11;
+const significant_factor_threshold = .5;
+const confidence_factor = 1;
 
 // Initialization
 let map_data = {};
@@ -156,7 +157,7 @@ function get_ban_suggestions() {
             }
         }
 
-        let score = 1000 * combine_scores(sources);
+        let score = score_multiplier * combine_scores(sources);
 
         possible_bans.push({'hero': hero, 'score': score, 'factors': factors});
     }
@@ -242,7 +243,7 @@ function get_player_hero_stats(player_id, hero) {
         }
     }
 
-    let score = 1000 * combine_scores(sources);
+    let score = score_multiplier * combine_scores(sources);
 
     return {'hero': hero, 'score': score, 'factors': factors};
 }
@@ -312,7 +313,7 @@ function get_general_suggestions() {
             }
         }
 
-        let score = 1000 * combine_scores(sources);
+        let score = score_multiplier * combine_scores(sources);
         possible_heroes.push({'hero': hero, 'score': score, 'factors': factors});
     }
 
