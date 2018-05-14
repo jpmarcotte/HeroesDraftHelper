@@ -3,37 +3,37 @@
 	font-family: Blizzard;
 	font-style: normal;
 	font-weight: 300;
-	src: local("Blizzard Light"), local("Blizzard-Light"), url(http://us.battle.net/heroes/static/css/toolkit/fonts/blizzard-light.woff) format("woff");
+	src: local("Blizzard Light"), local("Blizzard-Light"), url(/fonts/light.woff) format("woff");
 }
 @font-face {
 	font-family: Blizzard;
 	font-style: normal;
 	font-weight: 400;
-	src: local("Blizzard"), local("Blizzard"), url(http://us.battle.net/heroes/static/css/toolkit/fonts/blizzard-regular.woff) format("woff");
+	src: local("Blizzard"), local("Blizzard"), url(/fonts/regular.woff) format("woff");
 }
 @font-face {
 	font-family: Blizzard;
 	font-style: italic;
 	font-weight: 400;
-	src: local("Blizzard Italic"), local("Blizzard-Italic"), url(http://us.battle.net/heroes/static/css/toolkit/fonts/blizzard-regular-italic.woff) format("woff");
+	src: local("Blizzard Italic"), local("Blizzard-Italic"), url(/fonts/regular-italic.woff) format("woff");
 }
 @font-face {
 	font-family: Blizzard;
 	font-style: normal;
 	font-weight: 700;
-	src: local("Blizzard Bold"), local("Blizzard-Bold"), url(http://us.battle.net/heroes/static/css/toolkit/fonts/blizzard-bold.woff) format("woff");
+	src: local("Blizzard Bold"), local("Blizzard-Bold"), url(/fonts/bold.woff) format("woff");
 }
 @font-face {
 	font-family: heroes-icon;
-	src: url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.eot?adcul8);
-	src: url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.eot?#iefixadcul8) format('embedded-opentype'), url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.woff?adcul8) format('woff'), url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.ttf?adcul8) format('truetype'), url(http://us.battle.net/heroes/static/fonts/heroes-icons/heroes.svg?adcul8#icomoon) format('svg');
+	src: url(/fonts/heroes.eot);
+	src: url(/fonts/heroes-iefix.eot) format('embedded-opentype'), url(/fonts/heroes.woff) format('woff'), url(/fonts/heroes.ttf) format('truetype'), url(/fonts/heroes.svg) format('svg');
 	font-weight: 400;
 	font-style: normal
 }
 @font-face {
 	font-family: battlegrounds-icon;
-	src: url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.eot?adcul8);
-	src: url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.eot?#iefixadcul8) format('embedded-opentype'), url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.woff?adcul8) format('woff'), url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.ttf?adcul8) format('truetype'), url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.svg?adcul8#icomoon) format('svg');
+	src: url(/fonts/battlegrounds.eot);
+	src: url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.eot?#iefixadcul8) format('embedded-opentype'), url(/fonts/battlegrounds.woff) format('woff'), url(/fonts/battlegrounds.ttf) format('truetype'), url(/fonts/battlegrounds.svg) format('svg');
 	font-weight: 400;
 	font-style: normal
 }
