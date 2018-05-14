@@ -33,7 +33,7 @@
 @font-face {
 	font-family: battlegrounds-icon;
 	src: url(/fonts/battlegrounds.eot);
-	src: url(http://us.battle.net/heroes/static/fonts/battlegrounds-icons/battlegrounds.eot?#iefixadcul8) format('embedded-opentype'), url(/fonts/battlegrounds.woff) format('woff'), url(/fonts/battlegrounds.ttf) format('truetype'), url(/fonts/battlegrounds.svg) format('svg');
+	src: url(/fonts/battlegrounds-iefix.eot) format('embedded-opentype'), url(/fonts/battlegrounds.woff) format('woff'), url(/fonts/battlegrounds.ttf) format('truetype'), url(/fonts/battlegrounds.svg) format('svg');
 	font-weight: 400;
 	font-style: normal
 }
