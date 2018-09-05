@@ -10,19 +10,24 @@
 		<TABLE border=1 width=100% cellspacing=0 cellpadding=5>
 			<THEAD>
 				<TR>
-					<TH colspan=2 width=30%>Ally Bans</TH>
+					<TH colspan=3 width=30%>Ally Bans</TH>
 					<TH width=40%>Map</TH>
-					<TH colspan=2 width=40%>Opponent Bans</TH>
+					<TH colspan=3 width=40%>Opponent Bans</TH>
 				</TR>
 			</TBODY>
 				<TR>
-					<TD width=15%>
+					<TD width=10%>
 						<SELECT id=ally_ban_1 name=ally_ban_1 class="ban hero_select">
 							<OPTION value=''>Select a Hero</OPTION>
 						</SELECT>
 					</TD>
-					<TD width=15%>
+					<TD width=10%>
 						<SELECT id=ally_ban_2 name=ally_ban_2 class="ban hero_select">
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD width=10%>
+						<SELECT id=ally_ban_3 name=ally_ban_3 class="ban hero_select">
 							<OPTION value=''>Select a Hero</OPTION>
 						</SELECT>
 					</TD>
@@ -31,19 +36,24 @@
 							<OPTION value=''>Select a map</OPTION>
 						</SELECT>
 					</TD>
-					<TD width=15%>
+					<TD width=10%>
 						<SELECT id=opponent_ban_1 name=opponent_ban_1 class="ban hero_select">
 							<OPTION value=''>Select a Hero</OPTION>
 						</SELECT>
 					</TD>
-					<TD width=15%>
+					<TD width=10%>
 						<SELECT id=opponent_ban_2 name=opponent_ban_2 class="ban hero_select">
+							<OPTION value=''>Select a Hero</OPTION>
+						</SELECT>
+					</TD>
+					<TD width=10%>
+						<SELECT id=opponent_ban_3 name=opponent_ban_3 class="ban hero_select">
 							<OPTION value=''>Select a Hero</OPTION>
 						</SELECT>
 					</TD>
 				</TR>
 				<TR>
-					<TD colspan=5>
+					<TD colspan=7>
 						<SPAN>Suggested Bans:</SPAN>
 						<SPAN id=suggested_bans></SPAN>
 					</TD>
