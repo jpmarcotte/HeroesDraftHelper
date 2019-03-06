@@ -67,10 +67,9 @@ var collect_player_data = function() {
         hero_data[field] = parseFloat((parseFloat(value)/100).toFixed(3));
       }
     }
-    if (hero_data['Win Percent']) {
-      // Ignore heroes that don't have enough games played.
+    if (hero_data['Games Played'] >= 5) {
       heroes_data[hero_name] = hero_data;
-    }
+    } // else gnore heroes that don't have enough games played.
   });
 
   player_data = {
