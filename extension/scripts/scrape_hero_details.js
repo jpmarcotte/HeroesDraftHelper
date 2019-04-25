@@ -154,8 +154,8 @@ store_hero_details = function () {
     $('#HDH_StoreHeroDetailsButton').removeClass().addClass('btn btn-info disabled');
 
 //console.log("Selecting Hero League");
-    if ($("div#ctl00_MainContent_DropDownGameMode_DropDown li.rddlItemSelected:contains('Hero League')").length == 0) {
-        $("div#ctl00_MainContent_DropDownGameMode_DropDown li:contains('Hero League')").click();
+    if ($("div#ctl00_MainContent_DropDownGameMode_DropDown li.rddlItemSelected:contains('Storm League')").length === 0) {
+        $("div#ctl00_MainContent_DropDownGameMode_DropDown li:contains('Storm League')").click();
     }
 
     wait_for_state(page_ready, function () {
