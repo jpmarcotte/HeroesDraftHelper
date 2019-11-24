@@ -26,19 +26,35 @@
 	"content_scripts": [
 		{
 			"matches": ["*://*.hotslogs.com/Player/Profile?*"],
-			"js": ["jquery-3.1.1.min.js", "storage.js", "profile.js"]
+			"js": ["jquery-3.1.1.min.js", "storage.js", "hotslogs/profile.js"]
 		},
 		{
 			"matches": ["*://*.hotslogs.com/Sitewide/HeroAndMapStatistics"],
-			"js": ["jquery-3.1.1.min.js", "storage.js", "maps.js"]
+			"js": ["jquery-3.1.1.min.js", "storage.js", "hotslogs/maps.js"]
 		},
 		{
 			"matches": ["*://*.hotslogs.com/Info/HeroSubRole"],
-			"js": ["jquery-3.1.1.min.js", "storage.js", "roles.js"]
+			"js": ["jquery-3.1.1.min.js", "storage.js", "hotslogs/roles.js"]
 		},
 		{
 			"matches": ["*://*.hotslogs.com/Sitewide/HeroDetails*"],
-			"js": ["jquery-3.1.1.min.js", "storage.js", "hero_details.js"]
+			"js": ["jquery-3.1.1.min.js", "storage.js", "hotslogs/hero_details.js"]
+		},
+		{
+            "matches": ["*://*.heroesprofile.com/Hero/All*"],
+			"js": ["jquery-3.1.1.min.js", "storage.js", "heroesprofile/profile.js"]
+		},
+		{
+			"matches": ["*://*.heroesprofile.com/Global/Hero/Maps*"],
+			"js": ["jquery-3.1.1.min.js", "storage.js", "heroesprofile/maps.js"]
+		},
+		{
+			"matches": ["*://*.heroesprofile.com/Info/HeroSubRole"],
+			"js": ["jquery-3.1.1.min.js", "storage.js", "heroesprofile/roles.js"]
+		},
+		{
+			"matches": ["*://*.heroesprofile.com/Sitewide/HeroDetails*"],
+			"js": ["jquery-3.1.1.min.js", "storage.js", "heroesprofile/hero_details.js"]
 		}
 	],
 
@@ -52,7 +68,7 @@
 	],
 
 	"web_accessible_resources": [
-		"scripts/*"
+		"*/scripts/*"
 	]
 
 }

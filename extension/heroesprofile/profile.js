@@ -1,7 +1,7 @@
-$.getScript(chrome.extension.getURL('scripts/player_data.js'));
+$.getScript(chrome.extension.getURL('heroesprofile/scripts/player_data.js'));
 
 // Moved button to Title area for consistency with other data scrape pages
-$('#h1Title').append(`
+$('div.player-name').append(`
 	<button id="HDH_StorePlayerDataButton" type="button" class="btn btn-primary" style="margin-bottom:10px;" onclick="store_player_data()">
 		<i id="HDH_PlayerProcessingIcon" class="fa fa-download"></i>
 		<span class="lbl">Store Player Data for Heroes Draft Helper</span>

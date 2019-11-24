@@ -1,4 +1,4 @@
-$.getScript(chrome.extension.getURL('scripts/role_data.js'));
+$.getScript(chrome.extension.getURL('hotslogs/scripts/role_data.js'));
 
 // Moved button to Title area for consistency with other data scrape pages
 $('header').append(`

@@ -1,4 +1,4 @@
-$.getScript(chrome.extension.getURL('scripts/scrape_hero_details.js'));
+$.getScript(chrome.extension.getURL('hotslogs/scripts/scrape_hero_details.js'));
 
 // Moved button outside of UpdatePanel to avoid displacement in the DOM
 $('#h1Title').append(`

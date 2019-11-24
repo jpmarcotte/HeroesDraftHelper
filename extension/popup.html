@@ -26,40 +26,70 @@
 				</p>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-xs-5">
+				Heroes Profile API Key:
+			</div>
+			<div class="col-xs-5">
+				<input type="text" id="api_key_heroes_profile">
+			</div>
+<!--			<div class="col-xs-1">-->
+<!--                <i class="fa fa-eye"></i>-->
+<!--			</div>-->
+            <div class="col-xs-2">
+				<button id="api_save_button_heroes_profile">
+                    SAVE
+				</button>
+			</div>
+		</div>
 		
 		<div class="row">
-			<div class="col-xs-7">
+			<div class="col-xs-6">
 				<span id="num_players" class="label label-as-badge">0</span> <span>Player record(s).</span>
 			</div>
-			<div id="load_player_button" class="col-xs-5">
-				<a href="http://www.hotslogs.com/Player/Profile"><button id="collect_player_data" type="button" class="btn btn-primary collect-data"><span class="glyphicon glyphicon-cloud-download"></span> Collect Player Data</button></a>
+			<div id="load_player_button" class="col-xs-6">
+				<a href="http://www.heroesprofile.com/Profile">
+					<button id="collect_player_data" type="button" class="btn btn-primary collect-data">
+						<span class="glyphicon glyphicon-cloud-download"></span> Collect Player Data
+					</button>
+				</a>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-7">
+			<div class="col-xs-6">
 				<span id="num_maps" class="label label-as-badge">0</span> <span>Map records.</span>
 			</div>
-			<div id="load_map_button" class="col-xs-5">
-				<a href="http://www.hotslogs.com/Sitewide/HeroAndMapStatistics"><button id="collect_map_data" type="button" class="btn btn-primary collect-data"><span class="glyphicon glyphicon-cloud-download"></span> Collect Map Data</button></a>
+			<div id="load_map_button" class="col-xs-6">
+				<button id="collect_map_data" type="button" class="btn btn-primary collect-data">
+					<span class="glyphicon glyphicon-cloud-download"></span> Collect Map Data
+				</button>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-7">
+			<div class="col-xs-6">
 				<span id="num_herosubs" class="label label-as-badge">0</span> <span>Hero/Role records.</span>
 			</div>
-			<div id="load_role_button" class="col-xs-5">
-				<a href="http://www.hotslogs.com/Info/HeroSubRole"><button id="collect_role_data" type="button" class="btn btn-primary collect-data"><span class="glyphicon glyphicon-cloud-download"></span> Collect Hero Data</button></a>
+			<div id="load_role_button" class="col-xs-6">
+				<button id="collect_role_data" type="button" class="btn btn-primary collect-data">
+					<span class="glyphicon glyphicon-cloud-download"></span> Collect Hero Data
+				</button>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-xs-7">
+			<div class="col-xs-6">
 				<span id="num_hero_details" class="label label-as-badge">0</span> <span>Hero Detail records.</span>
 			</div>
-			<div id="load_hero_detail_button" class="col-xs-5">
-				<a href="http://www.hotslogs.com/Sitewide/HeroDetails"><button id="collect_hero_detail_data" type="button" class="btn btn-primary collect-data"><span class="glyphicon glyphicon-cloud-download"></span> Collect Hero Details</button></a>
+			<div id="load_hero_detail_button" class="col-xs-6">
+				<button id="collect_hero_detail_data" type="button" class="btn btn-primary collect-data">
+					<span class="glyphicon glyphicon-cloud-download"></span> Collect Hero Details
+					<span id="hero_details_summary" style="display:none">
+						<span id="num_hero_details_fetched"></span>/<span id="num_hero_details_total"></span>
+					</span>
+				</button>
 			</div>
 		</div>
 		

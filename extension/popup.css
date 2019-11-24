@@ -11,3 +11,11 @@ body {
 .label-as-badge {
     border-radius: 1em;
 }
+
+#api_key_heroes_profile {
+	width: 100%
+}
+
+button {
+	width: 100%
+}

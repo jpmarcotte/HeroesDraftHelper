@@ -55,19 +55,22 @@ body { font-family: "Blizzard", sans-serif; }
 	vertical-align: text-bottom;
 }
 
-/* Blizzard Icons, but HotS Logs Roles */ 
+/* Blizzard Icons, but HotS Logs Roles */
 .Tank:before, .Bruiser:before { content: "\e603" } /* Warrior Icon */
 .Healer:before, .Support:before { content: "\e604" } /* Support Icon */
-.Siege:before, .Utility:before { content: "\e605" } /* Specialist Icon */
-.Ambusher:before, .BurstDamage:before, .SustainedDamage:before { content: "\e606" } /* Assassin Icon */
-				
+/*.Siege:before, .Utility:before { content: "\e605" } !* Specialist Icon *!*/
+/*.Ambusher:before, .BurstDamage:before, .SustainedDamage:before { content: "\e606" } !* Assassin Icon *!*/
+.RangedAssassin:before, .MeleeAssassin:before { content: "\e606" } /* Assassin Icon */
+
 .Tank:before { color: #CC9 }
 .Bruiser:before { color: #E3A23B }
 .Healer:before { color: #3BE33B }
 .Support:before { color: #60CDCD }
-.Ambusher:before { color: #E3E33B }
-.BurstDamage:before { color: #E33B3B }
-.SustainedDamage:before { color: #E33B8E }
-.Siege:before { color: #A660E8 }
-.Utility:before { color: #DDD }
+/*.Ambusher:before { color: #E3E33B }*/
+.RangedAssassin:before { color: #E33B3B }
+/*.BurstDamage:before { color: #E33B3B }*/
+.MeleeAssassin:before { color: #E33B8E }
+/*.SustainedDamage:before, { color: #E33B8E }*/
+/*.Siege:before { color: #A660E8 }*/
+/*.Utility:before { color: #DDD }*/
 

@@ -1,26 +1,67 @@
+function fetch_hero_details(hero_name, api_key) {
+    console.log("Fetching Hero " + hero_name);
+    $.get(
+        'https://api.heroesprofile.com/api/Heroes/Matchups',
+        {
+            "api_token": api_key,
+            "mode": "json",
+            "timeframe_type": "major",
+            "timeframe": 2.48,
+            "game_type": "Storm League",
+            "group_by_map": false,
+            "hero": hero_name
+        },
+        function (response) {
+            console.log(response);
+            hero_data = {
+                "duos": {},
+                "matchups": {}
+            };
+            for (matched_hero in response[hero_name]) {
+                hero_data["duos"][matched_hero] = response[hero_name][matched_hero]["ally"];
+                hero_data["matchups"][matched_hero] = response[hero_name][matched_hero]["enemy"];
+            }
+            data = {};
+            data['hero_details:' + hero_name] = hero_data;
+            chrome.storage.local.set(data);
+
+            let hero_details_fetched = $('span#num_hero_details_fetched');
+            hero_details_fetched.text(
+                parseInt(hero_details_fetched.text(), 10) + 1
+            );
+        }
+    );
+}
+
 $(document).ready(function () {
-    let key_types = {};
+    let key_type_counts = {};
     let sub_role_count = 0;
     let hero_detail_count = 0;
     let data_errors = [];
+    let api_key = '';
+    let heroes_to_fetch = [];
 
     chrome.storage.local.get(function (items) {
+        api_key = items['api_keys:heroes_profile'];
+
+        $('#api_key_heroes_profile').val(api_key);
+
         for (key in items) {
             console.log(key);
             let key_type = key.split(':')[0];
-            key_types[key_type] = (key_types[key_type] || 0) + 1;
+            key_type_counts[key_type] = (key_type_counts[key_type] || 0) + 1;
             if (key === 'hero_sub_roles') {
                 sub_role_count = Object.keys(items[key]).length;
             }
         }
 
-        //console.log(key_types);
+        console.log(key_type_counts);
         let enable_draft_helper = true;
 
         let numPlayers = $('#num_players');
-        if (key_types.player) {
-            numPlayers.text(key_types.player);
-            if (key_types.player < 5) {
+        if (key_type_counts.player) {
+            numPlayers.text(key_type_counts.player);
+            if (key_type_counts.player < 5) {
                 numPlayers.addClass('label-warning');
                 data_errors.push({
                     kind: "warning",
@@ -35,8 +76,8 @@ $(document).ready(function () {
         }
 
         let numMaps = $('#num_maps');
-        if (key_types.map) {
-            numMaps.text(key_types.map);
+        if (key_type_counts.map) {
+            numMaps.text(key_type_counts.map);
             numMaps.addClass('label-primary');
         } else {
             numMaps.addClass('label-danger');
@@ -44,7 +85,7 @@ $(document).ready(function () {
         }
 
         let numHerosubs = $('#num_herosubs');
-        if (key_types.hero_sub_roles) {
+        if (key_type_counts.hero_sub_roles) {
             numHerosubs.text(sub_role_count);
             numHerosubs.addClass('label-primary');
         } else {
@@ -53,8 +94,8 @@ $(document).ready(function () {
         }
 
         let numHeroDetails = $('#num_hero_details');
-        if (key_types.hero_details) {
-            numHeroDetails.text(key_types.hero_details);
+        if (key_type_counts.hero_details) {
+            numHeroDetails.text(key_type_counts.hero_details);
             numHeroDetails.addClass('label-primary');
         } else {
             numHeroDetails.addClass('label-warning');
@@ -101,4 +142,78 @@ $(document).ready(function () {
         chrome.tabs.update({url: this.parentNode.href});
     });
 
+    $('button#api_save_button_heroes_profile').click(function () {
+        var api_key = document.getElementById('api_key_heroes_profile').value;
+        chrome.storage.local.set({"api_keys:heroes_profile": api_key});
+    });
+
+    $('button#collect_map_data').click(function () {
+        $.get(
+            'https://api.heroesprofile.com/api/Heroes/Stats',
+            {
+                "api_token": api_key,
+                "mode": "json",
+                "timeframe_type": "major",
+                "timeframe": "2.48",
+                "game_type": "Storm League",
+                "group_by_map": true
+            },
+            function (response) {
+                console.log(response);
+                for (map_name in response) {
+                    for (hero in response[map_name]) {
+                        response[map_name][hero]["ban_rate"] = response[map_name][hero]["ban_rate"] / 100;
+                        response[map_name][hero]["pick_rate"] = response[map_name][hero]["pick_rate"] / 100;
+                        response[map_name][hero]["popularity"] = response[map_name][hero]["popularity"] / 100;
+                        response[map_name][hero]["win_rate"] = response[map_name][hero]["win_rate"] / 100;
+                    }
+                    data = {};
+                    data['map:' + map_name] = response[map_name]
+                    chrome.storage.local.set(data);
+                }
+            }
+        )
+    });
+
+    $('button#collect_role_data').click(function () {
+        $.get(
+            'https://api.heroesprofile.com/api/Heroes',
+            {
+                "api_token": api_key,
+                "mode": "json",
+            },
+            function (response) {
+                console.log(response);
+                data = {};
+                for (hero_name in response) {
+                    data[hero_name] = {
+                        "old_role": response[hero_name]["role"],
+                        "new_role": response[hero_name]["new_role"],
+                        "type": response[hero_name]["type"]
+                    }
+                }
+                chrome.storage.local.set({"hero_sub_roles": data});
+            }
+        )
+    });
+
+    $('button#collect_hero_detail_data').click(function () {
+        let hero_details_fetched = $('span#num_hero_details_fetched');
+        chrome.storage.local.get('hero_sub_roles', function (items) {
+            console.log(items['hero_sub_roles']);
+            hero_details_fetched.text(0);
+            $('span#num_hero_details_total').text(Object.keys(items['hero_sub_roles']).length);
+            $('span#hero_details_summary').show();
+
+            heroes_to_fetch = Object.keys(items['hero_sub_roles']);
+
+            setInterval(function () {
+                if (heroes_to_fetch.length > 0) {
+                    hero_name = heroes_to_fetch.shift();
+                    fetch_hero_details(hero_name, api_key);
+                }
+            }, 2100);
+        })
+    });
 });
+
